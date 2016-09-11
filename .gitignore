@@ -2,3 +2,7 @@
 .gitignore
 .idea/
 *.iml
+src/
+META-INF/
+WEB-INF/
+target/

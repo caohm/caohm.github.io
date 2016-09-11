@@ -12,28 +12,30 @@
     <link rel="icon" href="/favicon.ico">
 
     <title>千水金年</title>
-    <link rel="stylesheet" href="third/bootstrap/css/bootstrap.css"/>
-    <link rel="stylesheet" href="third/bootstrap/css/bootstrap-theme.css"/>
-    <link rel="stylesheet" href="third/bootstrap-datepicker/css/bootstrap-datepicker.css"/>
+
+
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="third/bootstrap-datepicker/css/bootstrap-datepicker.min.css"/>
     <link rel="stylesheet" href="css/index.css"/>
-    <script type="javascript" src="third/bootstrap/js/bootstrap.js"></script>
-    <script type="javascript" src="third/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-    <script type="javascript" src="js/index.js"></script>
     <style type='text/css'>
-        body {
-            background-color: #CCC;
-        }
     </style>
+
+
+    <script src="http://cdn.static.runoob.com/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="third/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script type="javascript" src="js/index.js"></script>
     <script>
-        var _hmt = _hmt || [];
     </script>
+
 </head>
 <body>
 
-<header class="navbar navbar-static-top navbar-default" id="top" role="banner">
+<header class="navbar navbar-default" id="top" role="banner">
     <div class="container">
         <div class="navbar-header">
-            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+            <button class="navbar-toggle collapsed glyphicon glyphicon-home" type="button" data-toggle="collapse" data-target="#bs-navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -41,16 +43,16 @@
             </button>
             <a href="../" class="navbar-brand">Chmcc</a>
         </div>
-        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+        <nav id="bs-navbar-collapse" class="collapse navbar-collapse " role="navigation">
             <ul class="nav navbar-nav">
                 <li class="active">
-                    <a href="../getting-started/">硬件</a>
+                    <a href="../yingjian/">硬件</a>
                 </li>
                 <li>
-                    <a href="../css/">软件</a>
+                    <a href="../ruanjian/">软件</a>
                 </li>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown">
                         开发
                         <b class="caret"></b>
                     </a>
@@ -66,8 +68,8 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="view/index.html">view</a></li>
-                <li><a href="view/daily/index.html">daily</a></li>
+                <li><a href="view/">view</a></li>
+                <li><a href="view/daily/">daily</a></li>
             </ul>
         </nav>
     </div>
