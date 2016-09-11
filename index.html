@@ -1,67 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CHMCC">
+    <meta name="keywords" content="HTML, CSS, JS, JavaScript, java, web development, linux">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="author" content="千水金年 <qianshuijinnian@gmail.com>">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <link rel="icon" href="/favicon.ico">
+
     <title>千水金年</title>
-    <!--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">-->
-    <link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+    <link rel="stylesheet" href="third/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="third/bootstrap/css/bootstrap-theme.css"/>
+    <link rel="stylesheet" href="third/bootstrap-datepicker/css/bootstrap-datepicker.css"/>
+    <link rel="stylesheet" href="css/index.css"/>
+    <script type="javascript" src="third/bootstrap/js/bootstrap.js"></script>
+    <script type="javascript" src="third/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script type="javascript" src="js/index.js"></script>
     <style type='text/css'>
         body {
             background-color: #CCC;
         }
     </style>
+    <script>
+        var _hmt = _hmt || [];
+    </script>
 </head>
 <body>
-<header>
+
+<header class="navbar navbar-static-top navbar-default" id="top" role="banner">
     <div class="container">
-        <h1>Caohm.GitHub.io</h1>
-        <h2></h2>
-        <section id="downloads">
-            <a href="https://github.com/caohm" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="../" class="navbar-brand">Chmcc</a>
+        </div>
+        <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="../getting-started/">硬件</a>
+                </li>
+                <li>
+                    <a href="../css/">软件</a>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        开发
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">jmeter</a></li>
+                        <li><a href="#">EJB</a></li>
+                        <li><a href="#">Jasper Report</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">分离的链接</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">另一个分离的链接</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="view/index.html">view</a></li>
+                <li><a href="view/daily/index.html">daily</a></li>
+            </ul>
+        </nav>
     </div>
 </header>
-<div class="container">
-    <h1>TWITTER BOOTSTRAP TUTORIAL</h1>
-    <div class="navbar navbar-inverse">
-        <div class="navbar-inner nav-collapse" style="height: auto;">
-            <ul class="nav">
-                <li class="active"><a href="/">Home</a></li>
-                <li><a href="one/index.html">Page One</a></li>
-                <li><a href="two/index.html">Page Two</a></li>
-            </ul>
-        </div>
-    </div>
-    <div id="content" class="row-fluid">
-        <div class="span9 main">
-            <h2>Main Content Section</h2>
-            <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation
-                ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor
-                in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at
-                vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis
-                dolore te feugait nulla facilisi. Nam liber tempor cum soluta nobis eleifend option congue nihil
-                imperdiet doming id quod mazim placerat facer possim assum.</p>
-            <p>
+<div class="" id="content">
+    <div class="container">
+        <h1>组件</h1>
+        <p>无数可复用的组件，包括字体图标、下拉菜单、导航、警告框、弹出框等更多功能。</p>
 
-            </p>
-            <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem. Investigationes
-                demonstraverunt lectores legere me lius quod ii legunt saepius. Claritas est etiam processus dynamicus,
-                qui sequitur mutationem consuetudium lectorum. Mirum est notare quam littera gothica, quam nunc putamus
-                parum claram, anteposuerit litterarum formas humanitatis per seacula quarta decima et quinta decima.
-                Eodem modo typi, qui nunc nobis videntur parum clari, fiant sollemnes in futurum.</p>
+    </div>
+</div>
+<div class="container ">
+
+    <div class="row">
+        <div class="col-md-9" role="main">
+            <div class="bs-docs-section">
+                <h1 id="glyphicons" class="page-header">Glyphicons 字体图标</h1>
+
+                <h2 id="glyphicons-glyphs">所有可用的图标</h2>
+                <p>包括200个来自 Glyphicon Halflings 的字体图标。<a href="http://glyphicons.com/">Glyphicons</a> Halflings 一般是收费的，但是他们的作者允许 Bootstrap 免费使用。为了表示感谢，希望你在使用时尽量为 <a href="http://glyphicons.com/">Glyphicons</a> 添加一个友情链接。</p>
+                <div class="bs-glyphicons">
+                    <ul class="bs-glyphicons-list">
+
+                        <li>
+                            <span class="glyphicon glyphicon-asterisk"></span>
+                            <span class="glyphicon-class">glyphicon glyphicon-asterisk</span>
+                        </li>
+
+                        <li>
+                            <span class="glyphicon glyphicon-plus"></span>
+                            <span class="glyphicon-class">glyphicon glyphicon-plus</span>
+                        </li>
+
+                        <li>
+                            <span class="glyphicon glyphicon-euro"></span>
+                            <span class="glyphicon-class">glyphicon glyphicon-euro</span>
+                        </li>
+
+                        <li>
+                            <span class="glyphicon glyphicon-minus"></span>
+                            <span class="glyphicon-class">glyphicon glyphicon-minus</span>
+                        </li>
+
+                        <li>
+                            <span class="glyphicon glyphicon-cloud"></span>
+                            <span class="glyphicon-class">glyphicon glyphicon-cloud</span>
+                        </li>
+
+                        <li>
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            <span class="glyphicon-class">glyphicon glyphicon-envelope</span>
+                        </li>
+
+                        <li>
+                            <span class="glyphicon glyphicon-pencil"></span>
+                            <span class="glyphicon-class">glyphicon glyphicon-pencil</span>
+                        </li>
+
+                        <li>
+                            <span class="glyphicon glyphicon-glass"></span>
+                            <span class="glyphicon-class">glyphicon glyphicon-glass</span>
+                        </li>
+
+
+                    </ul>
+                </div>
+
+
+
+
+
+         </div>
         </div>
-        <div class="span3 sidebar">
-            <h2>Sidebar</h2>
-            <ul class="nav nav-tabs nav-stacked">
-                <li><a href="#">Another Link 1</a></li>
-                <li><a href="#">Another Link 2</a></li>
-                <li><a href="#">Another Link 3</a></li>
-            </ul>
+        <div class="col-md-3">
+            <div class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" role="complementary">
+                <ul class="nav bs-docs-sidenav">
+
+                    <li class="active">
+                        <a href="#glyphicons">Glyphicons 字体图标</a>
+                        <ul class="nav">
+                            <li class="active"><a href="#glyphicons-glyphs">所有可用的图标</a></li>
+                            <li><a href="#glyphicons-how-to-use">如何使用</a></li>
+                            <li><a href="#glyphicons-examples">实例</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#dropdowns">下拉菜单</a>
+                        <ul class="nav">
+                            <li><a href="#dropdowns-example">实例</a></li>
+                            <li><a href="#dropdowns-alignment">对其</a></li>
+                            <li><a href="#dropdowns-headers">标题</a></li>
+                            <li><a href="#dropdowns-divider">分割线</a></li>
+                            <li><a href="#dropdowns-disabled">禁用的菜单项</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#responsive-embed">具有响应式特性的嵌入内容</a></li>
+                    <li><a href="#wells">Well</a></li>
+                </ul>
+                <a class="back-to-top" href="#top">
+                    返回顶部
+                </a>
+                <a href="#" class="bs-docs-theme-toggle" role="button">
+                    主题预览
+                </a>
+            </div>
         </div>
     </div>
-    <div id="container"></div>
 </div>
+<footer class="" role="contentinfo">
+    <div class="container">
+        bottom
+    </div>
+</footer>
 </body>
 </html>
+

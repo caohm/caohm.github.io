@@ -1,0 +1,50 @@
+
+
+body {
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  /*background-color: #CCC;*/
+
+}
+
+section {
+}
+
+h1, h2, h3, h4, h5, h6 {
+}
+
+li {
+}
+
+header {
+}
+
+
+/* Links
+   a, a:hover, a:visited
+*/
+
+a {
+  color: #63c0f5;
+  text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
+}
+
+/* Clearfix */
+
+.cf:before, .cf:after {
+  content:"";
+  display:table;
+}
+
+.cf:after {
+  clear:both;
+}
+
+.cf {
+  zoom:1;
+}
+.bs-navbar-collapse{
+
+}
