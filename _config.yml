@@ -26,7 +26,11 @@ github_username: caohm
 markdown: kramdown
 theme: minima
 gems:
-  - jekyll-feed
+        #- jekyll-mentions
+        #- jekyll-sitemap
+- jekyll-feed
+  #- jekyll-seo-tag
+  #- jekyll-paginate
 exclude:
   - Gemfile
   - Gemfile.lock
