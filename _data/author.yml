@@ -1,0 +1,31 @@
+name: caohm
+email: weichuyang@163.com
+image: "/images/Jaina.jpg"
+simpleIntro: 我是「曹洪铭」，一个处在学习期的小白。
+WebsiteIntro:
+    <h2 id="welcome-to-my-website">Welcome to My Website</h2>
+
+community:
+  - text: GitHub 
+    pic:  "/images/github-icon.png"
+    link: https://github.com/caohm
+  - text: oschina 
+    pic:  "/images/oschina-icon.png"
+    link: http://my.oschina.net/brianway	
+  - text: CSDN
+    pic:  "/images/csdn-icon.png"
+    link: http://blog.csdn.net/h3243212/
+  - text: SegmentFault
+    pic: "/images/segmentfault-icon.png"
+    link: http://segmentfault.com/blog/brianway
+
+follow:
+  - text: SinaWeibo
+    pic: "/images/sinaweibo-icon.png"
+    link: http://weibo.com/brianway
+  - text: Linkedin
+    pic: "/images/linkedin-icon.png"
+    link: https://cn.linkedin.com/in/weichuyang
+  - text: Renren
+    pic: "/images/renren-icon.png"
+    link: http://www.renren.com/390148187
