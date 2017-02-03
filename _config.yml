@@ -38,7 +38,7 @@ duoshuo_url: "http://caohm.github.io"
 # statistic analysis
 # hm.src = "//hm.baidu.com/hm.js?xxxxxxxxxxxx";
 #baidu_tongji_id: 01ead8d132fad393952a3d004d92453e
-#google_analytics_id: UA-77782495-1
+google_analytics_id: UA-91341681-1
 # Build settings
 markdown: kramdown
 #theme: minima
