@@ -22,7 +22,7 @@ baseurl: ""
 url: "http://caohm.github.io"
 permalink: /:year/:month/:day/:title/
 # other links
-github_username:  caohm
+github_username: caohm
 email: caohongming001@gmail.com
 weibo_username:
 linkedin_username:
@@ -32,7 +32,7 @@ description_footer: Caohm's HomePage
 # comments
 # two ways to comment, only choose one, and use your own short name
 duoshuo_shortname: caohm
-duoshuo_url: "http://caohm.github.io"
+duoshuo_url: "http://caohm.duoshuo.com"
 #disqus_shortname:
 
 # statistic analysis
@@ -45,7 +45,6 @@ markdown: kramdown
 kramdown:
   input: GFM
   syntax_highlighter: rouge
-
 
 # port
 port: 80
