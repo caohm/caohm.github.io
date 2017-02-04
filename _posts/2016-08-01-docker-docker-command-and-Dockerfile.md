@@ -142,4 +142,3 @@ docker inspect ${container_id}
 
 ----
 
-> 作者[@caohm](http://caohm.github.io/)更多文章：[个人网站](http://caohm.github.io/)

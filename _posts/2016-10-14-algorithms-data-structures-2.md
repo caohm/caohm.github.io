@@ -43,7 +43,7 @@ Symmetric order.Each node has a key, and every node’s key is:
 
 在java的实现中，每个节点(Node)由四个域组成：**key,value,left,right**。即：键，值，左子树，右子树。   
 
-```java
+``` java
 private class Node {
     private Key key;
     private Value val;
@@ -61,7 +61,7 @@ private class Node {
 
 - 查找：得到相应键的值，若无此键则返回null.
 
-```java
+``` java
 /* 查找 */
 public Value get(Key key) {
     Node x = root;
@@ -81,7 +81,7 @@ public Value get(Key key) {
 
 - 插入：如果小，往左；如果大，往右；如果null，插入；如果存在，覆盖。
 
-```java
+``` java
 /* 插入 */
 public void put(Key key, Value val) {
     root = put(root, key, val);
@@ -115,7 +115,7 @@ private Node put(Node x, Key key, Value val) {
 2. 有一个子节点的节点，删除该节点并以子节点代替即可。
 3. 有两个子节点的节点，找到该节点t的下一个节点x（即右子树的最小节点），在右子树删除这个节点，并将该节点x放到t的位置。
 
-```java
+``` java
 /* 删除 */
 private Node delete(Node x, Key key) {
     if (x == null) return null;
@@ -182,7 +182,7 @@ private Node delete(Node x, Key key) {
 
 红黑树的java表示
 
-```java
+``` java
 private static final boolean RED = true;
 private static final boolean BLACK = false;
 
@@ -213,7 +213,7 @@ private boolean isRed(Node x) {
 
 ![红黑树左转](http://7xph6d.com1.z0.glb.clouddn.com/algorithms_%E7%BA%A2%E9%BB%91%E6%A0%91-left-rotate.png)
 
-```java
+``` java
 /* left rotate */
 private Node rotateLeft(Node h) {
    assert isRed(h.right);
@@ -230,7 +230,7 @@ private Node rotateLeft(Node h) {
 
 ![红黑树右转](http://7xph6d.com1.z0.glb.clouddn.com/algorithims_%E7%BA%A2%E9%BB%91%E6%A0%91-rigtht-rotate.png)
 
-```java
+``` java
 /* right rotate */
 private Node rotateRight(Node h) {
     assert isRed(h.left);
@@ -247,7 +247,7 @@ private Node rotateRight(Node h) {
 
 ![红黑树变色](http://7xph6d.com1.z0.glb.clouddn.com/algorithms_%E7%BA%A2%E9%BB%91%E6%A0%91-flip-colors.png)
 
-```java
+``` java
 /* flip colors */
 private void flipColors(Node h) {
     assert !isRed(h);
@@ -276,7 +276,7 @@ private void flipColors(Node h) {
 **根本原因在于，2-3树中，是把3-node中处于中间的那个键传递给父节点，所以在红黑树中，当有一个节点连了两个 red link时，说明这三个点是一个3-node，但次序还需要调整，从而达到中间键在最上的状态，进而变色。而这个这个调整的趋势则是先让b处于a,c中间(即a的父，c的左子，成一条线)，再让b成为a,c的父节点，最后变色。记住这个顺序和原因，写代码就简单了，状态3->状态2->状态1**
 
 
-```java
+``` java
 private Node put(Node h, Key key, Value val) {
     //insert at bottom (and color it red)
     if (h == null) return new Node(key, val, RED);
@@ -338,4 +338,3 @@ private Node put(Node h, Key key, Value val) {
 
 ----
 
-> 作者[@caohm](http://caohm.github.io/)更多文章：[个人网站](http://caohm.github.io/)

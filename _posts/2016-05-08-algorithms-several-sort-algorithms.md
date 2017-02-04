@@ -554,4 +554,3 @@ Significance： In-place sorting algorithm with N log N worst-case.
 
 ----
 
-> 作者[@caohm](http://caohm.github.io/)更多文章：[个人网站](http://caohm.github.io/)

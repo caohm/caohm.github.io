@@ -144,4 +144,3 @@ Docker使用[union file systems](https://en.wikipedia.org/wiki/UnionFS) 把不�
 
 ----
 
-> 作者[@caohm](http://caohm.github.io/)更多文章：[个人网站](http://caohm.github.io/)

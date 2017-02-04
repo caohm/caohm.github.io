@@ -152,4 +152,3 @@ bin/zkCli.sh  -server 127.0.0.1:2180
 
 ----
 
-> 作者[@caohm](http://caohm.github.io/)更多文章：[个人网站](http://caohm.github.io/)
