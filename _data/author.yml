@@ -1,31 +1,25 @@
 name: caohm
-email: weichuyang@163.com
-image: "/images/Jaina.jpg"
-simpleIntro: 我是「曹洪铭」，一个处在学习期的小白。
+email: caohongming001@gmail.com
+image: "/images/favicon.ico"
+simpleIntro:
 WebsiteIntro:
     <h2 id="welcome-to-my-website">Welcome to My Website</h2>
 
 community:
   - text: GitHub 
-    pic:  "/images/github-icon.png"
+    pic:  "/images/github-icon.ico"
     link: https://github.com/caohm
   - text: oschina 
-    pic:  "/images/oschina-icon.png"
-    link: http://my.oschina.net/brianway	
+    pic:  "/images/oschina-icon.ico"
+    link: http://my.oschina.net/caohm
   - text: CSDN
-    pic:  "/images/csdn-icon.png"
-    link: http://blog.csdn.net/h3243212/
+    pic:  "/images/csdn-icon.ico"
+    link: http://blog.csdn.net/qianshuijinnian/
   - text: SegmentFault
-    pic: "/images/segmentfault-icon.png"
-    link: http://segmentfault.com/blog/brianway
+    pic: "/images/segmentfault-icon.ico"
+    link: http://segmentfault.com/blog/caohm
 
 follow:
   - text: SinaWeibo
-    pic: "/images/sinaweibo-icon.png"
-    link: http://weibo.com/brianway
-  - text: Linkedin
-    pic: "/images/linkedin-icon.png"
-    link: https://cn.linkedin.com/in/weichuyang
-  - text: Renren
-    pic: "/images/renren-icon.png"
-    link: http://www.renren.com/390148187
+    pic: "/images/sinaweibo-icon.ico"
+    link: http://weibo.com/
