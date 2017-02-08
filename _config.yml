@@ -58,10 +58,14 @@ excerpt_separator: "\n\n\n\n"
 
 gems:
   #- jekyll-mentions
-  #- jekyll-sitemap
-- jekyll-feed
-  #- jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-mermaid
 #- jekyll-paginate
+
+mermaid:
+  src: '/js/mermaid.js'
 
 # paginate
 #paginate: 5
@@ -72,3 +76,13 @@ exclude:
 
 
 
+sitemap:
+    filename: "/sitemap.xml"
+    exclude:
+        - "/atom.xml"
+        - "/feed.xml"
+        - "/feed/index.xml"
+    include_posts:
+        - "/index.html"
+    change_frequency_name: "change_frequency"
+    priority_name: "priority"
