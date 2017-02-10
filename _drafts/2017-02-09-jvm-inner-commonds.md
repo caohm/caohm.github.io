@@ -1,5 +1,5 @@
 ---
-title: JVM性能调优监控工具jps、jstack、jmap、jhat、jstat、hprof使用详解
+title: JVM性能调优监控工具
 layout: post
 date:   2017-02-09 14:47:23 +0800
 categories: [jvm性能调优]

@@ -3,7 +3,7 @@ title: Spring Recipes
 layout: post
 date: 2017-02-09 23:13:57 +0800
 categories: [Reading notes]
-tags: [Spring Recipes]
+tags: [Spring-Recipes]
 ---
 
 * content

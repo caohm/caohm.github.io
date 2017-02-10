@@ -1,8 +1,8 @@
 ---
-title: 2017-02-09-spring-leaning-bean.md
+title: Spring Leaning Bean
 layout: post
 date: 2017-02-09 17:30:18 +0800
-categories: [spring-leaning]
+categories: [Spring Leaning]
 tags: [bean加载]
 ---
 * content
