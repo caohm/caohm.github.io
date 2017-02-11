@@ -2,8 +2,8 @@
 title: Ubuntu install Chinese Input Method 
 layout: post
 date:  2017-02-11 00:10:15 +0800 
-categories: [Ubuntu]
-tags: []
+categories: [Install]
+tags: [Ubuntu]
 ---
 
 
@@ -11,6 +11,15 @@ tags: []
 * content
 {:toc}
 本文 记录 Ubuntu install Chinese Input Method 
+
+
+
+
+
+
+
+
+
 
 
 #### Steps

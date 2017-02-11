@@ -2,12 +2,24 @@
 layout: post
 title:  "Ubuntu install jekyll"
 date:   2017-02-07 22:22:08 +0800
-categories: jekyll
+categories: [Install]
+tags: [Ubuntu]
 ---
 
 * content
 {:toc}
+
+
 本文介绍Ubuntu install jekyll
+
+
+
+
+
+
+
+
+
 
 ### 1 Needed software 
 

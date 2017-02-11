@@ -10,6 +10,15 @@ tags: [bean加载]
 本文 spring复习笔记
 
 
+
+
+
+
+
+
+
+
+
 ### singleton
 
 对于Spring中实现Singleton模式，是以IOC容器为单位，换句话说，一个JVM可能有多个IOC容器，而Java中实现Singleton而言，只有一个JVM。所以说，Spring中实现的Singleton模式与Java中的Singleton设计模式有点不同。 

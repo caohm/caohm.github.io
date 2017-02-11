@@ -2,14 +2,24 @@
 title: ubuntu install fontfs
 layout: post
 date:  2017-02-11 11:47:21 +0800 
-categories: [Ubuntu]
-tags: [fontfs]
+categories: [Install]
+tags: [Ubuntu]
 ---
-
 
 * content
 {:toc}
-本文 记录 
+
+
+本文介绍 
+
+
+
+
+
+
+
+
+
 
 
 #### Commond install
