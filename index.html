@@ -7,7 +7,7 @@ layout: default
         {{ site.data.author.WebsiteIntro }}
         <hr>
         <ul>
-            {% for post in site.posts %}
+            {% for post in paginator.posts %}
               <li>
                 <h2>
                   <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
@@ -23,9 +23,11 @@ layout: default
                     <div class="label-card">
                         {% if page.meta %}<i class="fa fa-key"></i>{{ page.meta }}  {% endif %}
                     </div>
+
                     <div class="label-card">
                     {% include category.html %}
                     </div>
+
                     <div class="label-card">
                     {% include tag.html %}
                     </div>
@@ -40,6 +42,24 @@ layout: default
               </li>
             {% endfor %}
         </ul>
+        <!-- Pagination links -->
+        <div class="pagination">
+          {% if paginator.previous_page %}
+            <a href="/index.html" class="previous"><i class="fa fa-angle-double-left"></i></a>
+            <a href="{{ paginator.previous_page_path }}" class="previous"><i class="fa fa-angle-left"></i></a>
+          {% else %}
+            <span class="previous disable"><i class="fa fa-angle-double-left"></i></span>
+            <span class="previous disable"><i class="fa fa-angle-left"></i></span>
+          {% endif %}
+          <span class="page_number ">{{ paginator.page }}/{{ paginator.total_pages }}</span>
+          {% if paginator.next_page %}
+            <a href="{{ paginator.next_page_path }}" class="next"><i class="fa fa-angle-right"></i></a>
+            <a href="/page{{ paginator.total_pages }}" class="next"><i class="fa fa-angle-double-right"></i></a>
+          {% else %}
+            <span class="next disable"><i class="fa fa-angle-right"></i></span>
+            <span class="next disable"><i class="fa fa-angle-double-right"></i></span>
+          {% endif %}
+        </div>
     </div>
     <div class="right">
         <div class="wrap">

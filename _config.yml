@@ -62,13 +62,14 @@ gems:
   - jekyll-feed
   - jekyll-seo-tag
   - jekyll-mermaid
-#- jekyll-paginate
+  - jekyll-paginate
 
 mermaid:
   src: '/js/mermaid.js'
 
 # paginate
-#paginate: 5
+paginate: 5
+paginate_path: "page:num"
 # bundle
 exclude:
   - Gemfile

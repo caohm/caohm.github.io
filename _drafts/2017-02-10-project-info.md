@@ -1,8 +1,8 @@
 ---
-title: JD Project Info
+title: Project Info
 layout: post
 date:  2017-02-10 10:33:15 +0800 
-categories: [JD]
+categories: [公司]
 tags: []
 ---
 
