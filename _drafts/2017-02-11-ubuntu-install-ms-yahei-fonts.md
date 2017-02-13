@@ -1,5 +1,5 @@
 ---
-title: ubuntu install fontfs
+title: ubuntu install fonts
 layout: post
 date:  2017-02-11 11:47:21 +0800 
 categories: [Install]
