@@ -3,7 +3,7 @@ title: Sublime Text 3 Install Packages
 layout: post
 date: 2017-02-12 01:08:12 +0800 
 categories: [Install]
-tags: [Ubuntu]
+tags: [sublime]
 ---
 
 

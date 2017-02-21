@@ -3,14 +3,16 @@ title: ubuntu install fonts
 layout: post
 date:  2017-02-11 11:47:21 +0800 
 categories: [Install]
-tags: [Ubuntu]
+tags: [Ubuntu,font]
 ---
 
 * content
 {:toc}
 
+本文介绍 Ubuntu安装中文字体。
 
-本文介绍 
+
+
 
 
 

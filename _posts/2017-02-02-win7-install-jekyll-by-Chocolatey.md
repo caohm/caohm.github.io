@@ -3,7 +3,7 @@ layout: post
 title:  "win7 通过Chocolatey安装jekyll"
 date:   2017-02-02 12:06:08 +0800
 categories: [Install]
-tags: []
+tags: [windows,jekyll]
 ---
 
 * content

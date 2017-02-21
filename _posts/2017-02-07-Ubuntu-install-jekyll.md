@@ -3,7 +3,7 @@ layout: post
 title:  "Ubuntu install jekyll"
 date:   2017-02-07 22:22:08 +0800
 categories: [Install]
-tags: [Ubuntu]
+tags: [Ubuntu,jekyll]
 ---
 
 * content
