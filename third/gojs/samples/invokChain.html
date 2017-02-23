@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="go.js"></script>
+    <script id="code">
+        function init() {
+            if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
+            var $ = go.GraphObject.make;  // for conciseness in defining templates
+            myDiagram =
+                $(go.Diagram, "myDiagramDiv",  // Diagram refers to its DIV HTML element by id
+                    {
+                        allowDelete: false,
+                        allowCopy: true,
+//                        initialAutoScale: go.Diagram.Uniform,  // an initial automatic zoom-to-fit
+                        initialContentAlignment: go.Spot.Center,
+                        maxSelectionCount: 1, // no more than 1 element can be selected at a time
+                        layout: $(go.LayeredDigraphLayout,  // use a TreeLayout to position all of the nodes
+                            {angle: 90, layerSpacing: 20})
+                    });
+            myDiagram.nodeTemplate =
+                $(go.Node, "Vertical",
+                    {
+                        locationSpot: go.Spot.Center
+                    },
+                    // the main "BODY" consists of a RoundedRectangle surrounding nested Panels
+                    $(go.Panel, "Auto", {name: "BODY"},
+                        $(go.Shape, "RoundedRectangle", {
+                            name: "OBJSHAPE",
+                            strokeWidth: 1,
+                            margin: 0,
+                            maxSize: new go.Size(95, 145)
+                        }, new go.Binding("fill", "bg_color"), new go.Binding("stroke", "line_color")),
+                        $(go.Panel, "Vertical", {margin: 0},
+                            // the title
+                            $(go.Panel, {
+                                    margin: 0,
+                                    maxSize: new go.Size(95, 33),
+                                    defaultAlignment: go.Spot.Left,
+                                    toolTip:  //  define a tooltip for each link that displays its information
+                                        $(go.Adornment, "Auto",
+                                            $(go.Shape, {fill: "#ffffff"}),
+                                            $(go.TextBlock, {margin: 4, editable: true},
+                                                new go.Binding("text", "key"))
+                                        )
+                                },
+                                $(go.TextBlock, {
+                                        isMultiline: false, editable: false,
+                                        maxSize: new go.Size(95, 33), margin: 0,
+                                        font: 'bold 12px Roboto, sans-serif', textAlign: 'left'
+
+                                    },
+                                    new go.Binding("text", "key"))
+                            ),
+                            // the optional list of actions
+                            $(go.Panel, "Vertical",
+                                $("PanelExpanderButton", "COLLAPSIBLE",  // name of the object to make visible or invisible
+                                    {column: 1,  alignment: go.Spot.Right}
+                                ),
+                                $(go.Panel, "Table", {name: "COLLAPSIBLE", margin: 5, maxSize: new go.Size(95, 145)},
+                                    $(go.RowColumnDefinition, {column: 0, separatorStroke: "black"}),
+                                    $(go.RowColumnDefinition, {column: 1, separatorStroke: "black"}),
+                                    $(go.RowColumnDefinition, {row: 0, separatorStroke: "black"}),
+                                    $(go.RowColumnDefinition, {row: 1, separatorStroke: "black"}),
+                                    $(go.RowColumnDefinition, {row: 2, separatorStroke: "black"}),
+                                    $(go.RowColumnDefinition, {row: 3, separatorStroke: "black"}),
+                                    $(go.RowColumnDefinition, {row: 4, separatorStroke: "black"}),
+                                    $(go.RowColumnDefinition, {row: 5, separatorStroke: "black"}),
+                                    $(go.Panel, "Auto", {
+                                        row: 1, column: 0, margin: 1, width: 45,
+                                        defaultAlignment: go.Spot.Center,
+                                        toolTip:  //  define a tooltip for each link that displays its information
+                                            $(go.Adornment, "Auto",
+                                                $(go.Shape, {fill: "#ffffff"}),
+                                                $(go.TextBlock, {margin: 4, editable: true},
+                                                    new go.Binding("text", "", function () {
+                                                        return "实时tp99";
+                                                    }))
+                                            )
+                                    }, $(go.TextBlock,
+                                        {
+                                            textAlign: "center",
+                                            font: "12px Roboto, sans-serif",
+                                            isMultiline: false, editable: false
+                                        },
+                                        new go.Binding("text", "tp99"))),
+                                    $(go.Panel, "Auto", {
+                                            row: 1, column: 1, margin: 1, width: 45,
+                                            alignment: go.Spot.Center,
+                                            toolTip:  //  define a tooltip for each link that displays its information
+                                                $(go.Adornment, "Auto",
+                                                    $(go.Shape, {fill: "#ffffff"}),
+                                                    $(go.TextBlock, {margin: 4, editable: true},
+                                                        new go.Binding("text", "", function () {
+                                                            return "常规tp99";
+                                                        }))
+                                                )
+                                        },
+                                        $(go.TextBlock,
+                                            {
+                                                font: "12px Roboto, sans-serif",
+                                                isMultiline: false, editable: false, textAlign: 'center'
+                                            },
+                                            new go.Binding("text", "tp99_normal"))),
+                                    $(go.Panel, "Auto", {
+                                            row: 2, column: 0, margin: 1, width: 45, alignment: go.Spot.Center,
+                                            toolTip:  //  define a tooltip for each link that displays its information
+                                                $(go.Adornment, "Auto",
+                                                    $(go.Shape, {fill: "#ffffff"}),
+                                                    $(go.TextBlock, {margin: 4, editable: true},
+                                                        new go.Binding("text", "", function () {
+                                                            return "实时total";
+                                                        }))
+                                                )
+                                        },
+                                        $(go.TextBlock,
+                                            {
+                                                font: "12px Roboto, sans-serif",
+                                                isMultiline: false, editable: false, textAlign: 'center'
+                                            },
+                                            new go.Binding("text", "total"))),
+                                    $(go.Panel, "Auto", {
+                                            row: 2, column: 1, margin: 1, width: 45, alignment: go.Spot.Center,
+                                            toolTip:  //  define a tooltip for each link that displays its information
+                                                $(go.Adornment, "Auto",
+                                                    $(go.Shape, {fill: "#ffffff"}),
+                                                    $(go.TextBlock, {margin: 4, editable: true},
+                                                        new go.Binding("text", "", function () {
+                                                            return "常规total";
+                                                        }))
+                                                )
+                                        },
+                                        $(go.TextBlock,
+                                            {
+                                                font: "12px Roboto, sans-serif",
+                                                isMultiline: false, editable: false, textAlign: 'center'
+                                            },
+                                            new go.Binding("text", "total_normal"))),
+
+                                    $(go.Panel, "Auto", {
+                                            row: 3, column: 0, margin: 1, width: 45, alignment: go.Spot.Center,
+                                            toolTip:  //  define a tooltip for each link that displays its information
+                                                $(go.Adornment, "Auto",
+                                                    $(go.Shape, {fill: "#ffffff"}),
+                                                    $(go.TextBlock, {margin: 4, editable: true},
+                                                        new go.Binding("text", "", function () {
+                                                            return "实时invoke";
+                                                        }))
+                                                )
+                                        }, $(go.TextBlock,
+                                        {
+                                            font: "12px Roboto, sans-serif",
+                                            isMultiline: false, editable: false, textAlign: 'center'
+                                        },
+                                        new go.Binding("text", "invoke"))
+                                    ),
+                                    $(go.Panel, "Auto", {
+                                            row: 3, column: 1, margin: 1, width: 45, alignment: go.Spot.Center,
+                                            toolTip:  //  define a tooltip for each link that displays its information
+                                                $(go.Adornment, "Auto",
+                                                    $(go.Shape, {fill: "#ffffff"}),
+                                                    $(go.TextBlock, {margin: 4, editable: true},
+                                                        new go.Binding("text", "", function () {
+                                                            return "常规invoke";
+                                                        }))
+                                                )
+                                        }, $(go.TextBlock,
+                                        {
+                                            font: "12px Roboto, sans-serif",
+                                            isMultiline: false, editable: false, textAlign: 'center'
+                                        },
+                                        new go.Binding("text", "invoke_normal"))
+                                    )
+                                )  // end Table Panel
+                            )  // end optional Vertical Panel
+                        )  // end outer Vertical Panel
+                    ),  // end "BODY"  Auto Panel
+                    $(go.Panel,  // this is underneath the "BODY"
+                        {height: 15},  // always this height, even if the TreeExpanderButton is not visible
+                        $("TreeExpanderButton")
+                    )
+                );
+
+            var contextMenu =
+                $(go.Adornment, "Vertical",
+                    $("ContextMenuButton",
+                        $(go.TextBlock, "Copy"),
+                        {
+                            click: function (e, obj) {
+                                alert("copy");
+                            }
+                        }),
+                    $("ContextMenuButton",
+                        $(go.TextBlock, "Cut"),
+                        {
+                            click: function (e, obj) {
+                                alert("cut");
+                            }
+                        })
+                );
+            // define the link template
+            myDiagram.linkTemplate =
+                $(go.Link,
+                    {
+                        selectionAdornmentTemplate: $(go.Adornment,
+                            $(go.Shape,
+                                {isPanelMain: true, stroke: "dodgerblue", strokeWidth: 3}),
+                            $(go.Shape,
+                                {toArrow: "Standard", fill: "dodgerblue", stroke: null, scale: 1})
+                        ),
+                        routing: go.Link.Normal,
+                        curve: go.Link.Bezier,
+                        toShortLength: 2
+                    },
+                    $(go.Shape,  //  the link shape
+                        {name: "OBJSHAPE"}),
+                    $(go.Shape,  //  the arrowhead
+                        {name: "ARWSHAPE", toArrow: "Standard"})
+                );
+
+            // define the group template
+            myDiagram.groupTemplate =
+                $(go.Group, "Auto", {
+                        layout: $(go.LayeredDigraphLayout, {
+                            angle: 90,
+                            layerSpacing: 20,
+                        })
+                    },
+                    $(go.Shape, "RoundedRectangle",
+                        {fill: "#ffffff", name: "OBJSHAPE"}),
+                    $(go.Panel, "Vertical",
+                        {
+                            margin: 5,
+                            defaultAlignment: go.Spot.Left
+                        },
+                        $(go.Panel, "Horizontal",
+                            $("SubGraphExpanderButton",
+                                {margin: new go.Margin(0, 3, 5, 0)}),
+                            $(go.TextBlock, {
+                                name: "GROUPTEXT",
+                                alignment: go.Spot.TopLeft,
+                                font: "Bold 10pt Sans-Serif"
+                            }, new go.Binding("text", "key"))
+                        ),
+                        $(go.Placeholder)
+                    )
+                );
+
+
+            // add nodes, including groups, and links to the model
+            myDiagram.model = new go.GraphLinksModel(
+                [ // node data
+                    {
+                        key: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        group: "soporder_sdk_count",
+                        name: "获得地址",
+                        nation: "South Korea",
+                        title: "Secretary-General of the United Nations",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "red",
+                        bg_color: "red"
+                    },
+                    {
+                        key: "soporder_sdk_count.e.AddressExportImpl.findById",
+                        group: "soporder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "red",
+                        bg_color: "#80ff80"
+
+
+                    },
+                    {
+                        key: "soporder_sdk_count.e.AddressExportImpl.findById1",
+                        group: "soporder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "red",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "soporder_sdk_count.e.AddressExportImpl.findById2",
+                        group: "soporder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "red",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "soporder_sdk_count.r.AddressExportImpl.getAddress",
+                        group: "soporder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "red",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "soporder_sdk_count.r.AddressExportImpl.findById",
+                        group: "soporder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "payship_sdk_count.e.AddressExportImpl.getAddress",
+                        group: "payship_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "payship_sdk_count.e.AddressExportImpl.findById",
+                        group: "payship_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "payship_sdk_count.r.AddressExportImpl.getAddress",
+                        group: "payship_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "payship_sdk_count.r.AddressExportImpl.findById",
+                        group: "payship_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "dddorder_sdk_count.e.AddressExportImpl.findById1",
+                        group: "dddorder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "dddorder_sdk_count.e.AddressExportImpl.findById2",
+                        group: "dddorder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "dddorder_sdk_count.e.AddressExportImpl.findById3",
+                        group: "dddorder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {
+                        key: "dddorder_sdk_count.e.AddressExportImpl.findById4",
+                        group: "dddorder_sdk_count",
+                        name: "通过ID获得地址",
+                        tp99: 55,
+                        total: 300,
+                        invoke: 400,
+                        tp99_normal: 55,
+                        total_normal: 300,
+                        invoke_normal: 400,
+                        line_color: "gray",
+                        bg_color: "#80ff80"
+                    },
+                    {key: "soporder_sdk_count", isGroup: true},
+                    {key: "dddorder_sdk_count", isGroup: true},
+                    {key: "payship_sdk_count", isGroup: true}
+                ],
+                [  // link data
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById1"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById2"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById3"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById4"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById5"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById6"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById7"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById8"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById9"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById10"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.e.AddressExportImpl.findById11"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.getAddress",
+                        to: "soporder_sdk_count.r.AddressExportImpl.getAddress"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.findById",
+                        to: "soporder_sdk_count.r.AddressExportImpl.findById"
+                    },
+                    {
+                        from: "soporder_sdk_count.r.AddressExportImpl.findById",
+                        to: "soporder_sdk_count.e.AddressExportImpl.getAddress"
+                    },
+                    {
+                        from: "soporder_sdk_count.r.AddressExportImpl.getAddress",
+                        to: "payship_sdk_count.e.AddressExportImpl.getAddress"
+                    },
+                    {
+                        from: "soporder_sdk_count.r.AddressExportImpl.findById",
+                        to: "payship_sdk_count.e.AddressExportImpl.findById"
+                    },
+                    {
+                        from: "payship_sdk_count.e.AddressExportImpl.findById",
+                        to: "payship_sdk_count.e.AddressExportImpl.findById"
+                    },
+                    {
+                        from: "payship_sdk_count.e.AddressExportImpl.findById",
+                        to: "payship_sdk_count.r.AddressExportImpl.findById"
+                    },
+                    {
+                        from: "payship_sdk_count.r.AddressExportImpl.getAddress",
+                        to: "payship_sdk_count.e.AddressExportImpl.getAddress"
+                    },
+                    {
+                        from: "soporder_sdk_count.e.AddressExportImpl.findById2",
+                        to: "dddorder_sdk_count.e.AddressExportImpl.findById1"
+                    },
+                    {
+                        from: "soporder_sdk_count.r.AddressExportImpl.getAddress",
+                        to: "dddorder_sdk_count.e.AddressExportImpl.findById2"
+                    },
+                    {
+                        from: "dddorder_sdk_count.e.AddressExportImpl.findById1",
+                        to: "dddorder_sdk_count.e.AddressExportImpl.findById1"
+                    },
+                    {
+                        from: "dddorder_sdk_count.e.AddressExportImpl.findById1",
+                        to: "dddorder_sdk_count.e.AddressExportImpl.findById2"
+                    },
+                    {
+                        from: "dddorder_sdk_count.e.AddressExportImpl.findById1",
+                        to: "dddorder_sdk_count.e.AddressExportImpl.findById3"
+                    },
+                    {
+                        from: "dddorder_sdk_count.e.AddressExportImpl.findById3",
+                        to: "dddorder_sdk_count.e.AddressExportImpl.findById4"
+                    },
+                    {
+                        from: "dddorder_sdk_count.e.AddressExportImpl.findById4",
+                        to: "dddorder_sdk_count.e.AddressExportImpl.findById2"
+                    },
+                    {
+                        from: "dddorder_sdk_count.e.AddressExportImpl.findById2",
+                        to: "dddorder_sdk_count.e.AddressExportImpl.findById2"
+                    }
+                ]);
+            // Overview
+            myOverview =
+                $(go.Overview, "myOverviewDiv",
+                    {observed: myDiagram, contentAlignment: go.Spot.Center});
+            myDiagram.addDiagramListener("ChangedSelection",
+                function () {
+                    updateHighlights();
+                });
+
+            myDiagram.select(myDiagram.findNodeForKey('C'));
+        }
+
+        // This highlights all graph objects that should be highlighted
+        // whenever a radio button is checked or selection changes.
+        // Parameter e is the checked radio button.
+        function updateHighlights(e) {
+            // Set highlight to 0 for everything before updating
+            myDiagram.nodes.each(function (node) {
+                node.highlight = 0;
+            });
+            myDiagram.links.each(function (link) {
+                link.highlight = 0;
+            });
+
+            // Get the selected GraphObject and run the appropriate method
+            var sel = myDiagram.selection.first();
+
+            if (sel !== null) {
+                linksFrom(sel, 1);
+//                switch (e.id) {
+//                    case "linksIn":
+//                        linksTo(sel, 1);
+//                        break;
+//                    case "linksOut":
+//                        linksFrom(sel, 1);
+//                        break;
+//                    case "linksAll":
+//                        linksAll(sel, 1);
+//                        break;
+//                    case "nodesIn":
+//                        nodesTo(sel, 1);
+//                        break;
+//                    case "nodesOut":
+//                        nodesFrom(sel, 1);
+//                        break;
+//                    case "nodesConnect":
+//                        nodesConnect(sel, 1);
+//                        break;
+//                    case "nodesReach":
+//                        nodesReach(sel, 1);
+//                        break;
+//                    case "group":
+//                        containing(sel, 1);
+//                        break;
+//                    case "groupsAll":
+//                        containingAll(sel, 1);
+//                        break;
+//                    case "nodesMember":
+//                        childNodes(sel, 1);
+//                        break;
+//                    case "nodesMembersAll":
+//                        allMemberNodes(sel, 1);
+//                        break;
+//                    case "linksMember":
+//                        childLinks(sel, 1);
+//                        break;
+//                    case "linksMembersAll":
+//                        allMemberLinks(sel, 1);
+//                        break;
+//                }
+            }
+
+            // Give everything the appropriate highlighting ( color and width of stroke )
+            // nodes, including groups
+            myDiagram.nodes.each(function (node) {
+                var shp = node.findObject("OBJSHAPE");
+                var grp = node.findObject("GROUPTEXT");
+                var hl = node.highlight;
+                highlight(shp, grp, hl);
+            });
+            // links
+            myDiagram.links.each(function (link) {
+                var hl = link.highlight;
+                var shp = link.findObject("OBJSHAPE");
+                var arw = link.findObject("ARWSHAPE");
+                highlight(shp, arw, hl);
+            });
+        }
+
+        // Functions for highlighting, called by updateHighlights.
+        // x in each case is the selected object or the object being treated as such.
+        // Some have return values for use by each other or for tooltips.
+
+        // if the link connects to this node, highlight it
+        function linksTo(x, i) {
+            if (x instanceof go.Node) {
+                x.findLinksInto().each(function (link) {
+                    link.highlight = i;
+                });
+            }
+        }
+
+        // if the link comes from this node, highlight it
+        function linksFrom(x, i) {
+            if (x instanceof go.Node) {
+                x.findLinksOutOf().each(function (link) {
+                    link.highlight = i;
+                });
+            }
+        }
+
+        // highlight all links connected to this node
+        function linksAll(x, i) {
+            if (x instanceof go.Node) {
+                x.linksConnected.each(function (link) {
+                    link.highlight = i;
+                });
+            }
+        }
+
+        // If selected object is a link, highlight its fromNode.
+        // Otherwise highlight the fromNode of each link coming into the selected node.
+        // Return a List of the keys of the nodes.
+        function nodesTo(x, i) {
+            var nodesToList = new go.List("string");
+            if (x instanceof go.Link) {
+                x.fromNode.highlight = i;
+                nodesToList.add(x.data.from);
+            } else {
+                x.findNodesInto().each(function (node) {
+                    node.highlight = i;
+                    nodesToList.add(node.data.key);
+                });
+            }
+            return nodesToList;
+        }
+
+        // same as nodesTo, but 'from' instead of 'to'
+        function nodesFrom(x, i) {
+            var nodesFromList = new go.List("string");
+            if (x instanceof go.Link) {
+                x.toNode.highlight = i;
+                nodesFromList.add(x.data.to);
+            } else {
+                x.findNodesOutOf().each(function (node) {
+                    node.highlight = i;
+                    nodesFromList.add(node.data.key);
+                });
+            }
+            return nodesFromList;
+        }
+
+        // If x is a link, highlight its toNode, or if it is a node, the node(s) it links to,
+        // and then call nodesReach on the highlighted node(s), with the next color.
+        // Do not highlight any node that has already been highlit with a color
+        // indicating a closer relationship to the original node.
+        function nodesReach(x, i) {
+            if (x instanceof go.Link) {
+                x.toNode.highlight = i;
+                nodesReach(x.toNode, i + 1);
+            } else {
+                x.findNodesOutOf().each(function (node) {
+                    if (node.highlight === 0 || node.highlight > i) {
+                        node.highlight = i;
+                        nodesReach(node, i + 1);
+                    }
+                });
+            }
+        }
+
+        // highlight all nodes linked to this one
+        function nodesConnect(x, i) {
+            if (x instanceof go.Link) {
+                x.toNode.highlight = i;
+                x.fromNode.highlight = i;
+            } else {
+                x.findNodesConnected().each(function (node) {
+                    node.highlight = i;
+                });
+            }
+        }
+
+        // highlights the group containing this object, specific method for links
+        // returns the containing group of x
+        function containing(x, i) {
+            var container = x.containingGroup;
+            if (container !== null) container.highlight = i;
+            return container;
+        }
+
+        // container is the group that contains this node and
+        // will be the parameter x for the next call of this function.
+        // Calling containing(x,i) highlights each group the appropriate color
+        function containingAll(x, i) {
+            containing(x, i);
+            var container = x.containingGroup;
+            if (container !== null) containingAll(container, i + 1);
+        }
+
+        // if the Node"s containingGroup is x, highlight it
+        function childNodes(x, i) {
+            var childLst = new go.List("string");
+            if (x instanceof go.Group) {
+                myDiagram.nodes.each(function (node) {
+                    if (node.containingGroup === x) {
+                        node.highlight = i;
+                        childLst.add(node.data.key);
+                    }
+                });
+            }
+            return childLst;
+        }
+
+        // same as childNodes, then run allMemberNodes for each child Group with the next color
+        function allMemberNodes(x, i) {
+            if (x instanceof go.Group) {
+                myDiagram.nodes.each(function (node) {
+                    if (node.containingGroup === x) {
+                        node.highlight = i;
+                        allMemberNodes(node, i + 1);
+                    }
+                });
+            }
+        }
+
+        // if the link"s containing Group is x, highlight it
+        function childLinks(x, i) {
+            var childLst = new go.List(go.Link);
+            myDiagram.links.each(function (link) {
+                if (link.containingGroup === x) {
+                    link.highlight = i;
+                    childLst.add(link);
+                }
+            });
+            return childLst;
+        }
+
+        // same as childLinks, then run allMemberLinks for each child Group with the next color
+        function allMemberLinks(x, i) {
+            childLinks(x, i);
+            myDiagram.nodes.each(function (node) {
+                if (node instanceof go.Group && node.containingGroup === x) {
+                    allMemberLinks(node, i + 1);
+                }
+            });
+        }
+
+        // perform the actual highlighting
+        function highlight(shp, obj2, hl) {
+            var color;
+            var width = 3;
+            if (hl === 0) {
+                color = "black";
+                width = 1;
+            }
+            else if (hl === 1) {
+                color = "blue";
+            }
+            else if (hl === 2) {
+                color = "green";
+            }
+            else if (hl === 3) {
+                color = "orange";
+            }
+            else if (hl === 4) {
+                color = "red";
+            }
+            else {
+                color = "purple";
+            }
+            shp.stroke = color;
+            shp.strokeWidth = width;
+            if (obj2 !== null) {
+                obj2.stroke = color;
+                obj2.fill = color;
+            }
+        }
+
+        function save() {
+            document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+            myDiagram.isModified = false;
+        }
+        function load() {
+            myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+        }
+    </script>
+    <style type="text/css">
+        #myOverviewDiv {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            top: 10px;
+            left: 10px;
+            background-color: aliceblue;
+            z-index: 300; /* make sure its in front */
+            border: solid 1px blue;
+        }
+    </style>
+</head>
+<body onload="init()">
+<div id="sample">
+    <div id="displays" style="width:100%; white-space:nowrap;">
+        <div id="myOverviewDiv"></div> <!-- Styled in a <style> tag at the top of the html page -->
+        <div id="myDiagramDiv"
+             style="border: solid 1px black; height: 630px; display: inline-block; vertical-align: top; width: 100%"></div>
+    </div>
+</div>
+</body>
+</html>
