@@ -30,7 +30,10 @@
                             strokeWidth: 1,
                             margin: 0,
                             maxSize: new go.Size(95, 145)
-                        }, new go.Binding("fill", "bg_color"), new go.Binding("stroke", "line_color")),
+                        },
+                         new go.Binding("fill", "isHighlighted", function(h) { return h ? "#F44336" : "#A7E7FC"; }).ofObject(),
+                         new go.Binding("fill", "bg_color"),
+                          new go.Binding("stroke", "line_color")),
                         $(go.Panel, "Vertical", {margin: 0},
                             // the title
                             $(go.Panel, {
@@ -839,13 +842,38 @@
         function load() {
             myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
         }
+  // the Search functionality highlights all of the nodes that have at least one data property match a RegExp
+  function searchDiagram() {  // called by button
+    var input = document.getElementById("mySearch");
+    if (!input) return;
+    input.focus();
+
+    // create a case insensitive RegExp from what the user typed
+    var regex = new RegExp(input.value, "i");
+
+    myDiagram.startTransaction("highlight search");
+    myDiagram.clearHighlighteds();
+
+    // search four different data properties for the string, any of which may match for success
+    if (input.value) {  // empty string only clears highlighteds collection
+      var results = myDiagram.findNodesByExample({ name: regex },
+                                                 { key: regex },
+                                                 { title: regex }
+                                                );
+      myDiagram.highlightCollection(results);
+      // try to center the diagram at the first node that was found
+      if (results.count > 0) myDiagram.centerRect(results.first().actualBounds);
+    }
+
+    myDiagram.commitTransaction("highlight search");
+  }
     </script>
     <style type="text/css">
         #myOverviewDiv {
             position: absolute;
             width: 200px;
             height: 100px;
-            top: 10px;
+            top: 30px;
             left: 10px;
             background-color: aliceblue;
             z-index: 300; /* make sure its in front */
@@ -855,6 +883,8 @@
 </head>
 <body onload="init()">
 <div id="sample">
+ <input type="search" id="mySearch" onkeypress="if (event.keyCode === 13) searchDiagram()" />
+  <button onclick="searchDiagram()">Search</button>
     <div id="displays" style="width:100%; white-space:nowrap;">
         <div id="myOverviewDiv"></div> <!-- Styled in a <style> tag at the top of the html page -->
         <div id="myDiagramDiv"
