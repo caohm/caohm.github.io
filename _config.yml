@@ -47,7 +47,7 @@ kramdown:
   syntax_highlighter: rouge
 
 # port
-port: 80
+port: 880
 
 # url
 category_dir: category/
@@ -68,7 +68,7 @@ mermaid:
   src: '/js/mermaid.js'
 
 # paginate
-paginate: 5
+paginate: 10
 paginate_path: "page:num"
 # bundle
 exclude:

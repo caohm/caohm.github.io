@@ -24,7 +24,7 @@ tags: [hack Mac]
 
 
 ### peizhi
-thinkpad e450c
+笔记本：thinkpad E450c(国外E450)
 
     Yosemite 10.10.5懒人版下载
     确认硬盘是AHCI控制器模式

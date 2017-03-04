@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <script src="go.js"></script>
     <script id="code">
+        var myDiagram;
+        //        var lastStroked = null;  // this remembers the last highlit Shape
         function init() {
             if (window.goSamples) goSamples();  // init for these samples -- you don't need to call this
             var $ = go.GraphObject.make;  // for conciseness in defining templates
@@ -15,25 +17,36 @@
 //                        initialAutoScale: go.Diagram.Uniform,  // an initial automatic zoom-to-fit
                         initialContentAlignment: go.Spot.Center,
                         maxSelectionCount: 1, // no more than 1 element can be selected at a time
+//                        layout: $(go.ForceDirectedLayout,  // use a TreeLayout to position all of the nodes
+//                            {defaultSpringLength: 30, defaultElectricalCharge: 100}
+//                        )
                         layout: $(go.LayeredDigraphLayout,  // use a TreeLayout to position all of the nodes
-                            {angle: 90, layerSpacing: 20})
+                            {angle: 90, layerSpacing: 20}
+                        )
                     });
+            myDiagram.toolManager.hoverDelay = 1;
+            myDiagram.toolManager.toolTipDuration = 2000;
+            myDiagram.toolManager.holdDelay = 2000;
             myDiagram.nodeTemplate =
                 $(go.Node, "Vertical",
                     {
-                        locationSpot: go.Spot.Center
+                        locationSpot: go.Spot.Center,
+                        mouseOver: doMouseOver, // this event handler is defined below
+                        mouseLeave: doMouseOut// this event handler is defined below
                     },
                     // the main "BODY" consists of a RoundedRectangle surrounding nested Panels
-                    $(go.Panel, "Auto", {name: "BODY"},
+                    $(go.Panel, "Auto", {name: "NodeBODY"},
                         $(go.Shape, "RoundedRectangle", {
-                            name: "OBJSHAPE",
-                            strokeWidth: 1,
-                            margin: 0,
-                            maxSize: new go.Size(95, 145)
-                        },
-                         new go.Binding("fill", "isHighlighted", function(h) { return h ? "#F44336" : "#A7E7FC"; }).ofObject(),
-                         new go.Binding("fill", "bg_color"),
-                          new go.Binding("stroke", "line_color")),
+                                name: "NodeShape",
+                                strokeWidth: 1,
+                                margin: 0,
+                                maxSize: new go.Size(95, 145)
+                            },
+                            new go.Binding("fill", "isHighlighted", function (h) {
+                                return h ? "#F44336" : "#A7E7FC";
+                            }).ofObject(),
+                            new go.Binding("fill", "bg_color"),
+                            new go.Binding("stroke", "line_color")),
                         $(go.Panel, "Vertical", {margin: 0},
                             // the title
                             $(go.Panel, {
@@ -42,23 +55,29 @@
                                     defaultAlignment: go.Spot.Left,
                                     toolTip:  //  define a tooltip for each link that displays its information
                                         $(go.Adornment, "Auto",
-                                            $(go.Shape, {fill: "#ffffff"}),
-                                            $(go.TextBlock, {margin: 4, editable: true},
-                                                new go.Binding("text", "key"))
-                                        )
+                                            {background: "transparent"},  // avoid hiding tooltip when mouse moves
+                                            $(go.TextBlock,
+                                                {alignment: go.Spot.Top, alignmentFocus: go.Spot.Bottom, stroke: "red"},
+                                                new go.Binding("text", "key", function (s) {
+                                                    return "key: " + s;
+                                                }))
+                                        ),
+                                    click: doOpenUmpKey   // this event handler is defined below
                                 },
                                 $(go.TextBlock, {
                                         isMultiline: false, editable: false,
                                         maxSize: new go.Size(95, 33), margin: 0,
-                                        font: 'bold 12px Roboto, sans-serif', textAlign: 'left'
-
+                                        font: 'bold 12px Roboto, sans-serif', textAlign: 'left',
+                                        cursor: "pointer"
                                     },
                                     new go.Binding("text", "key"))
                             ),
                             // the optional list of actions
                             $(go.Panel, "Vertical",
                                 $("PanelExpanderButton", "COLLAPSIBLE",  // name of the object to make visible or invisible
-                                    {column: 1,  alignment: go.Spot.Right}
+                                    {
+                                        column: 1, alignment: go.Spot.Right, cursor: "pointer"
+                                    }
                                 ),
                                 $(go.Panel, "Table", {name: "COLLAPSIBLE", margin: 5, maxSize: new go.Size(95, 145)},
                                     $(go.RowColumnDefinition, {column: 0, separatorStroke: "black"}),
@@ -180,7 +199,9 @@
                     ),  // end "BODY"  Auto Panel
                     $(go.Panel,  // this is underneath the "BODY"
                         {height: 15},  // always this height, even if the TreeExpanderButton is not visible
-                        $("TreeExpanderButton")
+                        $("TreeExpanderButton", {
+                            cursor: "pointer"
+                        })
                     )
                 );
 
@@ -216,9 +237,9 @@
                         toShortLength: 2
                     },
                     $(go.Shape,  //  the link shape
-                        {name: "OBJSHAPE"}),
+                        {name: "LinkShape"}),
                     $(go.Shape,  //  the arrowhead
-                        {name: "ARWSHAPE", toArrow: "Standard"})
+                        {name: "LinkArwShape", toArrow: "Standard"})
                 );
 
             // define the group template
@@ -228,9 +249,12 @@
                             angle: 90,
                             layerSpacing: 20,
                         })
+//                        layout: $(go.ForceDirectedLayout,  // use a TreeLayout to position all of the nodes
+//                            {defaultSpringLength: 30, defaultElectricalCharge: 100}
+//                        )
                     },
                     $(go.Shape, "RoundedRectangle",
-                        {fill: "#ffffff", name: "OBJSHAPE"}),
+                        {fill: "#ffffff", name: "NodeShape"}),
                     $(go.Panel, "Vertical",
                         {
                             margin: 5,
@@ -240,7 +264,7 @@
                             $("SubGraphExpanderButton",
                                 {margin: new go.Margin(0, 3, 5, 0)}),
                             $(go.TextBlock, {
-                                name: "GROUPTEXT",
+                                name: "GroupText",
                                 alignment: go.Spot.TopLeft,
                                 font: "Bold 10pt Sans-Serif"
                             }, new go.Binding("text", "key"))
@@ -632,16 +656,16 @@
             // Give everything the appropriate highlighting ( color and width of stroke )
             // nodes, including groups
             myDiagram.nodes.each(function (node) {
-                var shp = node.findObject("OBJSHAPE");
-                var grp = node.findObject("GROUPTEXT");
+                var shp = node.findObject("NodeShape");
+                var grp = node.findObject("GroupText");
                 var hl = node.highlight;
                 highlight(shp, grp, hl);
             });
             // links
             myDiagram.links.each(function (link) {
                 var hl = link.highlight;
-                var shp = link.findObject("OBJSHAPE");
-                var arw = link.findObject("ARWSHAPE");
+                var shp = link.findObject("LinkShape");
+                var arw = link.findObject("LinkArwShape");
                 highlight(shp, arw, hl);
             });
         }
@@ -842,31 +866,180 @@
         function load() {
             myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
         }
-  // the Search functionality highlights all of the nodes that have at least one data property match a RegExp
-  function searchDiagram() {  // called by button
-    var input = document.getElementById("mySearch");
-    if (!input) return;
-    input.focus();
+        // the Search functionality highlights all of the nodes that have at least one data property match a RegExp
+        function searchDiagram() {  // called by button
+            var input = document.getElementById("mySearch");
+            if (!input) return;
+            input.focus();
 
-    // create a case insensitive RegExp from what the user typed
-    var regex = new RegExp(input.value, "i");
+            // create a case insensitive RegExp from what the user typed
+            var regex = new RegExp(input.value, "i");
 
-    myDiagram.startTransaction("highlight search");
-    myDiagram.clearHighlighteds();
+            myDiagram.startTransaction("highlight search");
+            myDiagram.clearHighlighteds();
 
-    // search four different data properties for the string, any of which may match for success
-    if (input.value) {  // empty string only clears highlighteds collection
-      var results = myDiagram.findNodesByExample({ name: regex },
-                                                 { key: regex },
-                                                 { title: regex }
-                                                );
-      myDiagram.highlightCollection(results);
-      // try to center the diagram at the first node that was found
-      if (results.count > 0) myDiagram.centerRect(results.first().actualBounds);
-    }
+            // search four different data properties for the string, any of which may match for success
+            if (input.value) {  // empty string only clears highlighteds collection
+                var results = myDiagram.findNodesByExample({name: regex},
+                    {key: regex},
+                    {title: regex}
+                );
+                myDiagram.highlightCollection(results);
+                // try to center the diagram at the first node that was found
+                if (results.count > 0) myDiagram.centerRect(results.first().actualBounds);
+            }
 
-    myDiagram.commitTransaction("highlight search");
-  }
+            myDiagram.commitTransaction("highlight search");
+        }
+
+
+        // Called when the mouse is over the diagram's background
+        function doMouseOver(e) {
+            if (e === undefined)
+                return;
+            var doc = e.documentPoint;
+            // find all Nodes that are within 100 units
+            var list = myDiagram.findObjectsNear(doc, 100, null, function (x) {
+                return x instanceof go.Node;
+            });
+            // now find the one that is closest to e.documentPoint
+            var closest = null;
+            var closestDist = 999999999;
+            list.each(function (node) {
+                var dist = doc.distanceSquaredPoint(node.getDocumentPoint(go.Spot.Center));
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closest = node;
+                }
+            });
+            highlightNode(e, closest);
+        }
+        // Called when the mouse is over the diagram's background
+        function doMouseOut(e) {
+            highlightNode(null, null);
+        }
+
+        function doOpenUmpKey(e, node) {
+            debugger;
+            if (e === undefined)
+                return;
+            var doc = e.documentPoint;
+            // find all Nodes that are within 100 units
+            var list = myDiagram.findObjectsNear(doc, 100, null, function (x) {
+                return x instanceof go.Node;
+            });
+            // now find the one that is closest to e.documentPoint
+            var closest = null;
+            var closestDist = 999999999;
+            list.each(function (node) {
+                var dist = doc.distanceSquaredPoint(node.getDocumentPoint(go.Spot.Center));
+                if (dist < closestDist) {
+                    closestDist = dist;
+                    closest = node;
+                }
+            });
+            window.open("http://jk.jd.com/manage/table/gotoUMP?umpKey=" + closest.data.key);
+        }
+
+        // Called with a Node (or null) that the mouse is over or near
+        function highlightNode(e, node) {
+            if (node !== null) {
+//                var shape = node.findObject("NodeShape");
+//                shape.stroke = "white";
+//                if (lastStroked !== null && lastStroked !== shape) lastStroked.stroke = null;
+//                lastStroked = shape;
+                updateInfoBox(e.viewPoint, node);
+            } else {
+//                if (lastStroked !== null) lastStroked.stroke = null;
+//                lastStroked = null;
+                document.getElementById("infoBoxHolder").innerHTML = "";
+            }
+        }
+
+        // Make sure the infoBox is momentarily hidden if the user tries to mouse over it
+        //        var infoBoxH = document.getElementById("infoBoxHolder");
+        //        infoBoxH.addEventListener("mousemove", function () {
+        //            debugger;
+        //            var box = document.getElementById("infoBoxHolder");
+        //            box.style.left = parseInt(box.style.left) + "px";
+        //            box.style.top = parseInt(box.style.top) + 30 + "px";
+        //        }, false);
+        //
+        //        //        var diagramDiv = document.getElementById("myDiagramDiv");
+        //        // Make sure the infoBox is hidden when the mouse is not over the Diagram
+        //        infoBoxH.addEventListener("mouseout", function (e) {
+        //            debugger;
+        ////            if (lastStroked !== null) lastStroked.stroke = null;
+        ////            lastStroked = null;
+        //
+        //            var infoBox = document.getElementById("infoBox");
+        //            var elem = document.elementFromPoint(e.clientX, e.clientY);
+        //            if (elem !== null && (elem === infoBox || elem.parentNode === infoBox)) {
+        //                // do nothing
+        //            } else {
+        //                var box = document.getElementById("infoBoxHolder");
+        //                box.innerHTML = "";
+        //            }
+        //        }, false);
+
+
+        // This function is called to update the tooltip information
+        // depending on the bound data of the Node that is closest to the pointer.
+        function updateInfoBox(mousePt, node) {
+            var data = node.data;
+            if (data.isGroup) {
+                return;
+            }
+            var x =
+                "<div id='infoBox'>" +
+                "<div>" + data.key + "</div>" +
+                "            <table>" +
+                "                <tr>" +
+                "                    <td>名称：</td>" +
+                "                    <td>" + data.name + "</td>" +
+                "                </tr>" +
+                "                <tr>" +
+                "                    <td>tp99：</td>" +
+                "                    <td>" + data.tp99 + "</td>" +
+                "                </tr>" +
+                "                <tr>" +
+                "                    <td>tp99_normal：</td>" +
+                "                    <td>" + data.tp99_normal + "</td>" +
+                "                </tr>" +
+                "                <tr>" +
+                "                    <td>total：</td>" +
+                "                    <td>" + data.total + "</td>" +
+                "                </tr>" +
+                "                <tr>" +
+                "                    <td>total_normal：</td>" +
+                "                    <td>" + data.total_normal + "</td>" +
+                "                </tr>" +
+                "                <tr>" +
+                "                    <td>invoke：</td>" +
+                "                    <td>" + data.invoke + "</td>" +
+                "                </tr>" +
+                "                <tr>" +
+                "                    <td>invoke_normal：</td>" +
+                "                    <td>" + data.invoke_normal + "</td>" +
+                "                </tr>" +
+                "            </table>";
+
+
+            var box = document.getElementById("infoBoxHolder");
+            box.innerHTML = x;
+            node.viewportBounds;
+            var bound = node.actualBounds;
+            box.style.left = mousePt.x + bound.width + "px";
+            box.style.top = mousePt.y + bound.height + "px";
+        }
+
+
+        function showPoint(loc) {
+            var docloc = diagram.transformDocToView(loc);
+            var elt = document.getElementById("Message1");
+            elt.textContent = "Node location, document coordinates: " + loc.x.toFixed(2) + " " + loc.y.toFixed(2) +
+                "  view coordinates: " + docloc.x.toFixed(2) + " " + docloc.y.toFixed(2);
+        }
     </script>
     <style type="text/css">
         #myOverviewDiv {
@@ -879,16 +1052,68 @@
             z-index: 300; /* make sure its in front */
             border: solid 1px blue;
         }
+
+        #infoBoxHolder {
+            z-index: 300;
+            position: absolute;
+            left: 5px;
+        }
+
+        #infoBox {
+            border: 1px solid #999;
+            padding: 8px;
+            background-color: whitesmoke;
+            opacity: 0.9;
+            position: relative;
+            /*width: 170px;*/
+            /*/ / height: 60 px;*/
+            font-family: arial, helvetica, sans-serif;
+            font-weight: bold;
+            font-size: 11px;
+        }
+
+        /* this is known as the "clearfix" hack to allow
+           floated objects to add to the height of a div */
+        #infoBox:after {
+            visibility: hidden;
+            display: block;
+            font-size: 0;
+            content: " ";
+            clear: both;
+            height: 0;
+        }
+
+        div.infoTitle {
+            /*width: 100px;*/
+            font-weight: normal;
+            color: #787878;
+            float: left;
+            margin-left: 4px;
+        }
+
+        div.infoValues {
+            /*width: 30px;*/
+            text-align: right;
+            float: right;
+        }
+
+        label:hover, label:focus {
+            background: #CEDFF2;
+        }
     </style>
 </head>
 <body onload="init()">
 <div id="sample">
- <input type="search" id="mySearch" onkeypress="if (event.keyCode === 13) searchDiagram()" />
-  <button onclick="searchDiagram()">Search</button>
+    <input type="search" id="mySearch" onkeypress="if (event.keyCode === 13) searchDiagram()"/>
+    <button onclick="searchDiagram()">Search</button>
     <div id="displays" style="width:100%; white-space:nowrap;">
         <div id="myOverviewDiv"></div> <!-- Styled in a <style> tag at the top of the html page -->
         <div id="myDiagramDiv"
-             style="border: solid 1px black; height: 630px; display: inline-block; vertical-align: top; width: 100%"></div>
+             style="border: solid 1px black; height: 600px; display: inline-block; vertical-align: top; width: 100%"></div>
+        <div id="infoBoxHolder">
+
+            <!-- Initially Empty, it is populated when updateInfoBox is called -->
+        </div>
     </div>
 </div>
 </body>
