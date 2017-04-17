@@ -18,6 +18,43 @@ tags: [redis]
 
 
 
+### 常用命令 
+
+#### APPEND
+#### BITCOUNT
+#### BITFIELD
+#### BITOP
+#### BITPOS
+#### DECR
+#### DECRBY
+#### GET
+#### GETBIT
+#### GETRANGE
+#### GETSET
+#### INCR
+#### INCRBY
+#### INCRBYFLOAT
+#### MGET
+#### MSET
+#### MSETNX
+#### PSETEX
+#### SET
+#### SETBIT
+
+#### SETEX key seconds value
+
+设置key value 并给定过期事时间单位毫秒
+
+#### SETNX key value
+
+如果不存在，设置key value。 
+SETNX is short for "SET if Not eXists".
+
+#### SETRANGE
+
+#### STRLEN
+
+
 
 
 
