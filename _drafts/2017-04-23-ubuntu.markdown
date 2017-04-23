@@ -1,0 +1,20 @@
+---
+layout: post
+title:  "Ubuntu"
+date: 2017-04-23 20:11:59 +0800
+categories: [Install]
+tags: [Ubuntu]
+---
+
+* content
+{:toc}
+
+
+
+
+
+```
+sudo apt-get clean && sudo apt-get autoremove
+sudo apt-get -f install
+sudo dpkg --configure -a
+```
