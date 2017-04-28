@@ -1,8 +1,8 @@
 ---
-title: git
+title: version control git
 layout: post
 date:  2017-04-27 15:11:49 +0800 
-categories: [git]
+categories: [版本控制]
 tags: [git]
 ---
 
