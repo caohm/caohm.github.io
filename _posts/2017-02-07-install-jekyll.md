@@ -1,26 +1,50 @@
 ---
 layout: post
-title:  "Ubuntu install jekyll"
+title:  "install jekyll"
 date:   2017-02-07 22:22:08 +0800
 categories: [Install]
-tags: [Ubuntu,jekyll]
+tags: [jekyll]
 ---
 
 * content
 {:toc}
 
 
-本文介绍Ubuntu install jekyll
+本文介绍静态个人博客系统jekyll,如何安装jekyll
 
 
 
 
 
 
+## Windows
+
+### 安装
+
+powershell 3.0 内部安装Chocolatey需要先安装powershell 3.0
+
+- 下载  [Windows6.1-KB2506143-x64.msu](https://www.microsoft.com/en-us/download/confirmation.aspx?id=34595) 安装powershell 3.0
+- 通过powershell 3.0 安装 Chocolatey
+- 通过Chocolatey安装ruby
+- 通过ruby的gem安装bundler
+
+``` shell
+C:\>gem install --local C:\rubygems-update-2.6.7.gem
+C:\>update_rubygems --no-ri --no-rdoc
+```
+### 启动
+
+```
+C:\blogs>jekyll s --drafts
+```
+
+### refrence
+
+> - [SSL CERTIFICATE UPDATES](http://guides.rubygems.org/ssl-certificate-update)
 
 
 
-
+## Ubuntu
 ### 1 Needed software 
 
 |需要安装的软件 |执行的命令 |

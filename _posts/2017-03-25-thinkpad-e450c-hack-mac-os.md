@@ -23,7 +23,7 @@ tags: [hack Mac]
 
 
 
-### peizhi
+### 配置 
 笔记本：thinkpad E450c(国外E450)
 
     Yosemite 10.10.5懒人版下载

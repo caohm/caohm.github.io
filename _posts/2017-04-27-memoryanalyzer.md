@@ -9,7 +9,7 @@ tags: [MemoryAnalyzer]
 
 * content
 {:toc}                                                                                                          
-本文记录MemoryAnalyzer使用及内存分析
+本文记录JVM内存分析以及MemoryAnalyzer使用
 
 
 
