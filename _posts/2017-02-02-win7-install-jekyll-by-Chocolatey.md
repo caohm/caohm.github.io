@@ -36,6 +36,11 @@ powershell 3.0 内部安装Chocolatey需要先安装powershell 3.0
 C:\>gem install --local C:\rubygems-update-2.6.7.gem
 C:\>update_rubygems --no-ri --no-rdoc
 ```
+### 启动
+
+```
+C:\blogs>jekyll s --drafts
+```
 
 ### refrence
 
