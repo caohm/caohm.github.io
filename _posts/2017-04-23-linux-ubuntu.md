@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Ubuntu"
+title:  linux Ubuntu
 date: 2017-04-23 20:11:59 +0800
 categories: [linux]
 tags: [Ubuntu]
