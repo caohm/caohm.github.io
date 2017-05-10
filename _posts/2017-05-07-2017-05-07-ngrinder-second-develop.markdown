@@ -23,13 +23,6 @@ tags: [ngrinder]
 
 
 
-#### fileDistribution
-
-create script 
-1. grovey
-2. grovey maven
-3. jython
-
 #### core code
 
 ##### controller
@@ -47,16 +40,17 @@ PrefTestRunnable.java
         SingleConsole singleConsole = null;
         try {
             singleConsole = startConsole(perfTest);
-            // 预分发 groovy maven projet build
+            // prepare distribute groovy maven projet build
             ScriptHandler prepareDistribution = perfTestService.prepareDistribution(perfTest);
+            // generate the properties for agent include runtime properties
             GrinderProperties grinderProperties = perfTestService.getGrinderProperties(perfTest, prepareDistribution);
-            // agent start
+            // agent start with properties
             startAgentsOn(perfTest, grinderProperties, checkCancellation(singleConsole));
             // distribute files to agents
             distributeFileOn(perfTest, checkCancellation(singleConsole));
             // report path
             singleConsole.setReportPath(perfTestService.getReportFileDirectory(perfTest));
-            // start test
+            // start test with properties
             runTestOn(perfTest, grinderProperties, checkCancellation(singleConsole));
         } catch (SingleConsoleCancellationException ex) {
             // In case of error, mark the occurs error on perftest.
@@ -112,6 +106,90 @@ PrefTestService.java
     }
 ```
 
+PerfTestService.java line:560
+``` java
+  /**
+   * Create {@link GrinderProperties} based on the passed {@link PerfTest}.
+   *
+   * @param perfTest      base data
+   * @param scriptHandler scriptHandler
+   * @return created {@link GrinderProperties} instance
+   */
+  public GrinderProperties getGrinderProperties(PerfTest perfTest, ScriptHandler scriptHandler) {
+    try {
+      // Use default properties first
+      GrinderProperties grinderProperties = new GrinderProperties(config.getHome().getDefaultGrinderProperties());
+
+      User user = perfTest.getCreatedUser();
+
+      // Get all files in the script path
+      String scriptName = perfTest.getScriptName();
+      FileEntry userDefinedGrinderProperties = fileEntryService.getOne(user, FilenameUtils.concat(FilenameUtils.getPath(scriptName), DEFAULT_GRINDER_PROPERTIES), -1L);
+      if (!config.isSecurityEnabled() && userDefinedGrinderProperties != null) {
+        // Make the property overridden by user property.
+        GrinderProperties userProperties = new GrinderProperties();
+        userProperties.load(new StringReader(userDefinedGrinderProperties.getContent()));
+        grinderProperties.putAll(userProperties);
+      }
+      grinderProperties.setAssociatedFile(new File(DEFAULT_GRINDER_PROPERTIES));
+      grinderProperties.setProperty(GRINDER_PROP_SCRIPT, scriptHandler.getScriptExecutePath(scriptName));
+
+      grinderProperties.setProperty(GRINDER_PROP_TEST_ID, "test_" + perfTest.getId());
+      grinderProperties.setInt(GRINDER_PROP_AGENTS, getSafe(perfTest.getAgentCount()));
+      grinderProperties.setInt(GRINDER_PROP_PROCESSES, getSafe(perfTest.getProcesses()));
+      grinderProperties.setInt(GRINDER_PROP_THREAD, getSafe(perfTest.getThreads()));
+      if (perfTest.isThresholdDuration()) {
+        grinderProperties.setLong(GRINDER_PROP_DURATION, getSafe(perfTest.getDuration()));
+        grinderProperties.setInt(GRINDER_PROP_RUNS, 0);
+      } else {
+        grinderProperties.setInt(GRINDER_PROP_RUNS, getSafe(perfTest.getRunCount()));
+        if (grinderProperties.containsKey(GRINDER_PROP_DURATION)) {
+          grinderProperties.remove(GRINDER_PROP_DURATION);
+        }
+      }
+      grinderProperties.setProperty(GRINDER_PROP_ETC_HOSTS, StringUtils.defaultIfBlank(perfTest.getTargetHosts(), ""));
+      grinderProperties.setBoolean(GRINDER_PROP_USE_CONSOLE, true);
+      if (BooleanUtils.isTrue(perfTest.getUseRampUp())) {
+        grinderProperties.setBoolean(GRINDER_PROP_THREAD_RAMPUP, perfTest.getRampUpType() == RampUp.THREAD);
+        grinderProperties.setInt(GRINDER_PROP_PROCESS_INCREMENT, getSafe(perfTest.getRampUpStep()));
+        grinderProperties.setInt(GRINDER_PROP_PROCESS_INCREMENT_INTERVAL, getSafe(perfTest.getRampUpIncrementInterval()));
+        if (perfTest.getRampUpType() == RampUp.PROCESS) {
+          grinderProperties.setInt(GRINDER_PROP_INITIAL_SLEEP_TIME, getSafe(perfTest.getRampUpInitSleepTime()));
+        } else {
+          grinderProperties.setInt(GRINDER_PROP_INITIAL_THREAD_SLEEP_TIME, getSafe(perfTest.getRampUpInitSleepTime()));
+        }
+        grinderProperties.setInt(GRINDER_PROP_INITIAL_PROCESS, getSafe(perfTest.getRampUpInitCount()));
+      } else {
+        grinderProperties.setInt(GRINDER_PROP_PROCESS_INCREMENT, 0);
+      }
+      grinderProperties.setInt(GRINDER_PROP_REPORT_TO_CONSOLE, 500);
+      grinderProperties.setProperty(GRINDER_PROP_USER, perfTest.getCreatedUser().getUserId());
+      // set grinder.jvm.classpath for agent run
+      grinderProperties.setProperty(GRINDER_PROP_JVM_CLASSPATH, getCustomClassPath(perfTest));
+      grinderProperties.setInt(GRINDER_PROP_IGNORE_SAMPLE_COUNT, getSafe(perfTest.getIgnoreSampleCount()));
+      grinderProperties.setBoolean(GRINDER_PROP_SECURITY, config.isSecurityEnabled());
+      // For backward agent compatibility.
+      // If the security is not enabled, pass it as jvm argument.
+      // If enabled, pass it to grinder.param. In this case, I drop the
+      // compatibility.
+      if (StringUtils.isNotBlank(perfTest.getParam())) {
+        String param = perfTest.getParam().replace("'", "\\'").replace(" ", "");
+        if (config.isSecurityEnabled()) {
+          grinderProperties.setProperty(GRINDER_PROP_PARAM, StringUtils.trimToEmpty(param));
+        } else {
+          String property = grinderProperties.getProperty(GRINDER_PROP_JVM_ARGUMENTS, "");
+          property = property + " -Dparam=" + param + " ";
+          // set grinder.jvm.arguments for agent run
+          grinderProperties.setProperty(GRINDER_PROP_JVM_ARGUMENTS, property);
+        }
+      }
+      LOGGER.info("Grinder Properties : {} ", grinderProperties);
+      return grinderProperties;
+    } catch (Exception e) {
+      throw processException("error while prepare grinder property for " + perfTest.getTestName(), e);
+    }
+  }
+```
 GroovyMavenProjectScriptHandler.java
 ``` java
 @Override
@@ -307,8 +385,7 @@ net/sf/grinder/grinder-core/3.9.1/grinder-core-3.9.1.jar!/net/grinder/console/co
    * @param fileContents The file contents.
    */
   public void sendFile(Address address, FileContents fileContents) {
-    m_consoleCommunication.sendToAddressedAgents(
-      address, new DistributeFileMessage(fileContents));
+    m_consoleCommunication.sendToAddressedAgents(address, new DistributeFileMessage(fileContents));
   }
 ```
 
@@ -660,6 +737,8 @@ net/sf/grinder/grinder-core/3.9.1/grinder-core-3.9.1.jar!/net/grinder/console/co
 #### 修改jar中class
 
 ``` shell
-caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ unzip -l grinder-core-3.9.1.jar | grep "FileContents.class" | awk '{printf $4}' | xargs -I {} zip -d grinder-core-3.9.1.jar {}
-caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ cp grinder-core-3.9.1.jar ~/github/caohm/ngrinder/lib/
+caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ unzip -l grinder-core-3.9.1.1.jar | grep "FileContents.class" | awk '{printf $4}' | xargs -I {} zip -d grinder-core-3.9.1.1.jar {}
+caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ unzip -l grinder-core-3.9.1.1.jar | grep "FileDistributionHandlerImplementation.class" | awk '{printf $4}' | xargs -I {} zip -d grinder-core-3.9.1.1.jar {}
+caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ unzip -l grinder-core-3.9.1.1.jar | grep "FileStore.class" | awk '{printf $4}' | xargs -I {} zip -d grinder-core-3.9.1.1.jar {}
+caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ cp grinder-core-3.9.1.1.jar ~/github/caohm/ngrinder/lib/
 ```

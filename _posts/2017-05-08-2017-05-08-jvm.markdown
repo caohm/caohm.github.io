@@ -1,0 +1,26 @@
+---
+title: 2017-05-08-jvm
+layout: post
+date:  +0800
+categories: []
+tags: []
+---
+
+
+* content
+{:toc}                                                                                                          
+
+
+
+
+
+
+
+
+
+
+
+###
+
+-Xmx3550m -Xms3550m -Xmn2g 
+-Xms800m -Xmx800m -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m 
