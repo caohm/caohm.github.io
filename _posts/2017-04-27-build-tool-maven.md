@@ -34,3 +34,13 @@ tags: [maven]
 :~$ 
 clean compile package install deploy -Dmaven.test.skip=true
 ```
+
+
+### 
+```
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.17</version>
+            </plugin>
+```
