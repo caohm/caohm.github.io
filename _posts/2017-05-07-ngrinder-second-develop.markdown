@@ -742,3 +742,49 @@ caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ un
 caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ unzip -l grinder-core-3.9.1.1.jar | grep "FileStore.class" | awk '{printf $4}' | xargs -I {} zip -d grinder-core-3.9.1.1.jar {}
 caohm@caohm-ThinkPad-E450:~/.m2/repository/net/sf/grinder/grinder-core/3.9.1$ cp grinder-core-3.9.1.1.jar ~/github/caohm/ngrinder/lib/
 ```
+
+
+
+### cluster mode
+
+``` yml
+######################################################################################
+# clustering configuration.
+# This is not the option applied on the fly. You need to reboot to apply this.
+######################################################################################
+# These should be very carefully set. 
+# You can refer http://www.cubrid.org/wiki_ngrinder/entry/controller-clustering-guide
+
+# if you want to enable controller clustering. please enable below.
+#cluster.enabled=false
+
+# comma separated IP list of all clustered controller servers.
+#cluster.members=192.168.1.1;192.168.2.2;192.168.3.3
+
+# cluster communication port. This port should be same across the controllers if advanced cluster mode is enabled.
+#cluster.port=40003
+
+
+# Followings are options which should be set in ${NGRINDER_EX_HOME}!!
+#
+# Region setting for the current controller.
+# When running cluster mode, the ${NGRINDER_HOME} should be shared via NFS by multiple controllers.
+# Which means the controllers share same system.conf file and have same properties.
+# However each controllers should looks different region info. To make it possible
+# The following options should be defined in ${NGRINDER_EX_HOME}(by default it's .ngrinder_ex/system-ex.conf
+# which is not shared via NFS, so that each node cluster looks different value.
+
+#Console binding IP of this region. If not set, console will be bound to all available IPs.
+#cluster.host=
+
+# cluster communication port. This port should be different across the controllers if easy cluster mode is enabled.
+#cluster.port=40003
+
+#cluster.region=Beijing
+
+# true if the current region should be hide
+#cluster.hidden_region=false
+
+# true if the current region's file distribution should be done in safe way.
+#cluster.safe_dist=false
+```
