@@ -23,6 +23,11 @@ tags: [Ubuntu]
 sudo apt-get clean && sudo apt-get autoremove
 sudo apt-get -f install
 sudo dpkg --configure -a
+最佳卸载命令
+apt-get remove packagename --purge && apt-get autoremove --purge && apt-get clean 
+卸载程序(包括配置文件)、卸载依赖、删除/var/cache/apt/archives下所有安装包
+最佳升级软件命令
+apt-get update && apt-get upgrade
 ```
 
 
