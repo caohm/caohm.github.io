@@ -28,6 +28,23 @@ apt-get remove packagename --purge && apt-get autoremove --purge && apt-get clea
 卸载程序(包括配置文件)、卸载依赖、删除/var/cache/apt/archives下所有安装包
 最佳升级软件命令
 apt-get update && apt-get upgrade
+
+1、打印文件的第一列(域)                 ： awk '{print $1}' filename
+2、打印文件的前两列(域)                 ： awk '{print $1,$2}' filename
+3、打印完第一列，然后打印第二列  ： awk '{print $1 $2}' filename
+4、打印文本文件的总行数                ： awk 'END{print NR}' filename
+5、打印文本第一行                          ：awk 'NR==1{print}' filename
+6、打印文本第二行第一列                ：sed -n "2, 1p" filename | awk 'print $1'
+
+    shell里面的赋值方法有两种，格式为
+    1) arg=`(命令)`
+    2) arg=$(命令)
+因此，如果想要把某一文件的总行数赋值给变量nlines，可以表达为：
+    1) nlines=`(awk 'END{print NR}' filename)`
+或者
+    2) nlines=$(awk 'END{print NR}' filename)
+
+    
 ```
 
 

@@ -1,9 +1,9 @@
 ---
 title: 2017-05-6-maven-build-ant-error
 layout: post
-date:   +0800 
-categories: []
-tags: []
+date: 2017-05-18 14:58:48  +0800 
+categories: [maven]
+tags: [maven]
 ---
 
 
