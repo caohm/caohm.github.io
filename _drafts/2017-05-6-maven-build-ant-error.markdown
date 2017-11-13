@@ -27,6 +27,9 @@ tags: [maven]
 
 maven项目不能编译,老是报下面这个错误
 maven
+
+``` 
+
 [INFO] Scanning for projects...
 [INFO]
 
@@ -132,6 +135,7 @@ at org.codehaus.plexus.classworlds.realm.ClassRealm.loadClass(ClassRealm.java:23
 [ERROR] For more information about the errors and possible solutions, please read the following articles:
 [ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginContainerException
 
+```
 
 
 #### 解决办法
@@ -139,3 +143,4 @@ at org.codehaus.plexus.classworlds.realm.ClassRealm.loadClass(ClassRealm.java:23
 更改maven3.3.9到3.2.5没好使
 更改maven3.2.5到3.0.5没好使
 删除maven仓库的ant所有jar重新编译解决
+

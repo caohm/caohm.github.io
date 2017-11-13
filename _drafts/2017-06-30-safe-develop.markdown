@@ -1,5 +1,5 @@
 ---
-title: 2017-06-30-safe-develop
+title: safe-develop
 layout: post
 date: 2017-06-30 10:13:37 +0800
 categories: [safe]
