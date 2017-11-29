@@ -13,6 +13,8 @@ tags: []
 
 
 
+- [菜鸟到熟手的升级——路由器硬改教程总览](http://bbs.mydigit.cn/simple/?t1966109.html)
+- [菜鸟到熟手的升级——路由器硬改教程总览](http://bbs.mydigit.cn/read.php?tid=1966109&uid=268058&ds=1&toread=1)
 
 - [OpenWrt简体中文Wiki](https://wiki.openwrt.org/zh-cn/start)
 - [硬件支持列表 (ZH-CN)](https://wiki.openwrt.org/zh-cn/toh/start) 
@@ -21,6 +23,10 @@ tags: []
 - [串口](https://wiki.openwrt.org/doc/hardware/port.serial)
 
 
+## 硬改
+
+
+### WR703N
 
 ### WR720N v3/v4
 
@@ -260,5 +266,12 @@ spawn-fcgi -a 127.0.0.1 -p 9000 -C 5 -f php-cgi
 使用OpenWrt Image Builder对OpenWrt进行打包时可以将配置文件写入刷机包，作为默认值，请参考OpenWrt Image Builder的使用方法。
 
 
-### WM305R v3
+### WR742NV5.1
 
+- [硬改 TP-LINK WR742N v5.1 8M Flash + 64M 内存 + 提取 ART 数据](http://www.right.com.cn/forum/thread-126756-1-1.html)
+
+### WR842nV4/mw305rV3/mw300rV9/fw3005V9/fw306rV3
+
+### Mi mini
+
+- [mini](https://www.mi.com/miwifimini/param)
