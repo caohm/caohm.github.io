@@ -13,7 +13,7 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Caohm's HomePage
+title: 千水金年
 
 description: > # this means to ignore newlines until "baseurl:"
 # the subpath of your site, e.g. /blog
@@ -27,7 +27,7 @@ email: caohongming001@gmail.com
 weibo_username:
 linkedin_username:
 
-description_footer: Caohm's HomePage
+description_footer: 千水金年
 
 # comments
 # two ways to comment, only choose one, and use your own short name
