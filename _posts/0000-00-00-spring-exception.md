@@ -3,14 +3,14 @@ title: spring-exception
 layout: post
 date: 2017-12-01 17:57:16 +0800
 categories: [spring]
-tags: exception  
+tags: exception
 ---
 
 
 * content
-{:toc}                                                                                                          
+{:toc}
 
-
+- [从线上问题谈spring生命周期类lifeCycle类和bean的生命周期](http://blog.csdn.net/fei33423/article/details/52331435)
 
 
 
@@ -23,11 +23,32 @@ tags: exception
 
 #### BeanCurrentlyInCreationException
 
+- log
+
+```
+Caused by: org.springframework.beans.factory.BeanCurrentlyInCreationException: Error creating bean with name 'elementServiceFactory': Requested bean is currently in creation: Is there an unresolvable circular reference?
+    at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.beforeSingletonCreation(DefaultSingletonBeanRegistry.java:297)
+    at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:216)
+    at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:261)
+    at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:185)
+    at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:164)
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:671)
+    at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:610)
+    at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireByType(AbstractAutowireCapableBeanFactory.java:1076)
+    ... 97 more
+```
+
+##### 原因
+
+相同的代码，不同机器的map的hash是不一样的，因此导致keyset之后，拿到的list排序也不一样，所以他的能起来。
+因为他的类引用了有循环依赖问题的类，并将之正确常见出来，而我则在床两两个循环依赖的类的时候互相创建，导致创建失败。（注：不知道真实远离，我是这么理解的，知道原理的情指正，谢谢。）
+
+
 #### BeanCreationNotAllowedException
 
 - log
 
-``` 
+```
 2017-11-30 23:01:19:886 ERROR [1330810362-5] org.springframework.beans.factory.BeanCreationNotAllowedException: Error creating bean with name 'umpAroundAdvice': Singleton bean creation not allowed while the singletons of this factory are in destruction (Do not request a bean from a BeanFactory in a destroy method implementation!)
     at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:212)
     at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:291)
@@ -63,22 +84,22 @@ tags: exception
     at sun.reflect.GeneratedMethodAccessor120.invoke(Unknown Source)
     at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:25)
     at java.lang.reflect.Method.invoke(Method.java:597)
-    at com.jd.jsf.gd.filter.ProviderInvokeFilter.reflectInvoke(ProviderInvokeFilter.java:140)
-    at com.jd.jsf.gd.filter.ProviderInvokeFilter.invoke(ProviderInvokeFilter.java:100)
+    at com.chmcc.xsf.gd.filter.ProviderInvokeFilter.reflectInvoke(ProviderInvokeFilter.java:140)
+    at com.chmcc.xsf.gd.filter.ProviderInvokeFilter.invoke(ProviderInvokeFilter.java:100)
     at com.chmcc.sdk.common.filter.ProviderFilter.invoke(ProviderFilter.java:28)
-    at com.jd.jsf.gd.filter.ProviderConcurrentsFilter.invoke(ProviderConcurrentsFilter.java:62)
-    at com.jd.jsf.gd.filter.ProviderTimeoutFilter.invoke(ProviderTimeoutFilter.java:39)
-    at com.jd.jsf.gd.filter.ProviderMethodCheckFilter.invoke(ProviderMethodCheckFilter.java:78)
-    at com.jd.jsf.gd.filter.ProviderInvokeLimitFilter.invoke(ProviderInvokeLimitFilter.java:54)
-    at com.jd.jsf.gd.filter.ProviderHttpGWFilter.invoke(ProviderHttpGWFilter.java:47)
-    at com.jd.jsf.gd.filter.ProviderGenericFilter.invoke(ProviderGenericFilter.java:118)
-    at com.jd.jsf.gd.filter.ProviderContextFilter.invoke(ProviderContextFilter.java:73)
-    at com.jd.jsf.gd.filter.ExceptionFilter.invoke(ExceptionFilter.java:49)
-    at com.jd.jsf.gd.filter.SystemTimeCheckFilter.invoke(SystemTimeCheckFilter.java:79)
-    at com.jd.jsf.gd.filter.FilterChain.invoke(FilterChain.java:275)
-    at com.jd.jsf.gd.server.ProviderProxyInvoker.invoke(ProviderProxyInvoker.java:67)
-    at com.jd.jsf.gd.server.JSFTask.doRun(JSFTask.java:123)
-    at com.jd.jsf.gd.server.BaseTask.run(BaseTask.java:27)
+    at com.chmcc.xsf.gd.filter.ProviderConcurrentsFilter.invoke(ProviderConcurrentsFilter.java:62)
+    at com.chmcc.xsf.gd.filter.ProviderTimeoutFilter.invoke(ProviderTimeoutFilter.java:39)
+    at com.chmcc.xsf.gd.filter.ProviderMethodCheckFilter.invoke(ProviderMethodCheckFilter.java:78)
+    at com.chmcc.xsf.gd.filter.ProviderInvokeLimitFilter.invoke(ProviderInvokeLimitFilter.java:54)
+    at com.chmcc.xsf.gd.filter.ProviderHttpGWFilter.invoke(ProviderHttpGWFilter.java:47)
+    at com.chmcc.xsf.gd.filter.ProviderGenericFilter.invoke(ProviderGenericFilter.java:118)
+    at com.chmcc.xsf.gd.filter.ProviderContextFilter.invoke(ProviderContextFilter.java:73)
+    at com.chmcc.xsf.gd.filter.ExceptionFilter.invoke(ExceptionFilter.java:49)
+    at com.chmcc.xsf.gd.filter.SystemTimeCheckFilter.invoke(SystemTimeCheckFilter.java:79)
+    at com.chmcc.xsf.gd.filter.FilterChain.invoke(FilterChain.java:275)
+    at com.chmcc.xsf.gd.server.ProviderProxyInvoker.invoke(ProviderProxyInvoker.java:67)
+    at com.chmcc.xsf.gd.server.JSFTask.doRun(JSFTask.java:123)
+    at com.chmcc.xsf.gd.server.BaseTask.run(BaseTask.java:27)
     at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:441)
     at java.util.concurrent.FutureTask$Sync.innerRun(FutureTask.java:303)
     at java.util.concurrent.FutureTask.run(FutureTask.java:138)
@@ -173,3 +194,15 @@ tags: exception
         }
     }
 ```
+
+##### 原因
+
+tomcat未停服,请求不断的进来, 此时. spring正在关闭容器. context.close,destroy. 整个容器正在关闭中.
+事务拦截器获取bean通过applicationContext里获取.判断容器正在关闭,拒绝获取bean.抛错.
+
+
+
+### refrence
+
+- [从线上问题谈spring生命周期类lifeCycle类和bean的生命周期](http://blog.csdn.net/fei33423/article/details/52331435)
+- [spring 循环依赖引出的问题](http://phpxiaoxin.iteye.com/blog/991013)

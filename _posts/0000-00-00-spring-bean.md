@@ -2,7 +2,7 @@
 title: Spring Bean
 layout: post
 date: 2017-02-09 17:30:18 +0800
-categories: Spring
+categories: spring
 tags: bean
 ---
 * content
@@ -10,6 +10,9 @@ tags: bean
 本文 spring复习笔记
 
 
+- [Spring源码解析-beanfactory](http://blog.csdn.net/xiaoxufox/article/details/54601391)
+- [spring的bean加载2](http://blog.csdn.net/long636/article/details/49364019)
+- [spring源码深度解析(笔记四)--bean的加载](http://blog.csdn.net/ganxiaojieke/article/details/53749081)
 
 
 
@@ -17,9 +20,27 @@ tags: bean
 
 
 
+### bean
 
+#### init-method  
 
-### singleton
+ * 该方法是由spring容器执行  
+ * 在构造函数之后执行  
+ * 如果在构造函数之后，在调用方法之前要做一些工作，可以在init方法中完成
+
+#### destroy-method  
+
+ * 如果该bean是单例(默认就是singlton)，则在spring容器关闭或者销毁的时候，执行该方法  
+ * 如果该bean是多例(scope="prototype")，则spring容器不负责销毁  
+ * 说明：要想让spring容器控制bean的生命周期，那么该bean必须是单例 如果该bean是多例，该bean中还有资源，关闭资源的操作由程序员完成
+
+### scope
+ 
+#### singleton  默认  
+
+ * 单例
+ * 属性是共享的
+ * 一般情况下，把数据存放在方法中的变量中
 
 对于Spring中实现Singleton模式，是以IOC容器为单位，换句话说，一个JVM可能有多个IOC容器，而Java中实现Singleton而言，只有一个JVM。所以说，Spring中实现的Singleton模式与Java中的Singleton设计模式有点不同。 
 此外，spring singleton的含义是在一个spring 上下文中保持单态。 
@@ -103,10 +124,27 @@ public class SomeServece extends BaseService implements SomeInterFace
 }  
 ```
 
+ 
+#### prototype
+
+ * 多例
+ * 当一个bean是多例模式的情况下，lazy-init为false或者default无效
+
 ### lazy-init
 
 ApplicationContext实现的默认行为就是在启动时将所有singleton bean提前进行实例化。提前实例化意味着作为初始化过程的一部分，ApplicationContext实例会创建并配置所有的singleton bean。通常情况下这是件好事，因为这样在配置中的任何错误就会即刻被发现（否则的话可能要花几个小时甚至几天）。
 通过在<beans/>元素上使用'default-lazy-init'属性、<bean />元素上使用'lazy-init'
+
+#### lazy-init true  在context.getBean的时候才要创建对象  
+
+*  优点 如果该bean中有大数据存在，则什么时候context.getBean,什么时候创建对象 可以防止数据过早的停留在内存中，做到了懒加载
+*  缺点 如果spring配置文件中，该bean的配置有错误，那么在tomcat容器启动的时候，发现不了
+
+#### lazy-init false 在启动spring容器的时候创建对象  
+
+*  优点 如果在启动tomcat时要启动spring容器， 那么如果spring容器会错误，这个时候tomcat容器不会正常启动
+*  缺点 如果存在大量的数据，会过早的停留在内存中
+
 ``` xml
 <beans />                <bean />            immediately  
 <beans />                <bean lazy-init="true" />   lazy      
