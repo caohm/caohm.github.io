@@ -26,5 +26,4 @@ https://github.com/openzipkin/zipkin
 
 ### refrence
 
-https://www.oschina.net/p/jd-hydra
 http://www.aiuxian.com/article/p-1705239.html

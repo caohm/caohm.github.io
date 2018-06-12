@@ -45,19 +45,52 @@ tags: git
 :~$ 
 
 git branch -d <branchname>
- git push origin :<branchname>
+git push origin :<branchname>
 
 ```
 
-1,从已有的分支创建新的分支(如从master分支),创建一个dev分支
-git checkout -b dev
+1. 从已有的分支创建新的分支(如从master分支),创建一个dev分支
 
-2,创建完可以查看一下,分支已经切换到dev
+```
+git checkout -b dev
+```
+
+2. 创建完可以查看一下,分支已经切换到dev
+
+```
 git branch
     * dev
     master
-3,提交该分支到远程仓库
+git checkout master    
+```
+3. 提交该分支到远程仓库
+
+``` shell
 git push origin dev
-4,测试从远程获取dev
+```
+
+4. 测试从远程获取dev
+
+```
 git pull origin dev
+```
+
+5. fork 代码跟新原代码(远程代码跟新)
+
+```
+$ git remote -v
+origin  git@github.com:caohm/dubbo.git (fetch)
+origin  git@github.com:caohm/dubbo.git (push)
+$ git remote add upstream https://github.com/apache/incubator-dubbo.git
+$ git remote -v
+origin  git@github.com:caohm/dubbo.git (fetch)
+origin  git@github.com:caohm/dubbo.git (push)
+upstream        https://github.com/apache/incubator-dubbo.git (fetch)
+upstream        https://github.com/apache/incubator-dubbo.git (push)
+$ git checkout master
+$ git pull upstream master
+
+```
+
+
 
