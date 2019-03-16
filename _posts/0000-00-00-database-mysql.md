@@ -16,8 +16,19 @@ tags: mysql
 
 
 
+### 索引
 
+#### BTree索引使用规则
 
+左前缀原则：条件与联合索引从左面顺序开始匹配（可以子集），如果中间没有田间或like会导致后面的列索引使用不上。
+
+执行计划 避免使用临时表、文件排序，应该使用索引，索引可以用于i排序和分组
+
+mysql的sql是自动优化，决定使用哪个索引的，如果不使用，可以手动指定，避免优化。 
+
+```
+select * from XXX use index(indexName) where (dtEndTime BETWEEN '2012-12-10 00:00:00' and '2012-12-10 08:00:00' )
+```
 
 
 ### 锁
@@ -51,3 +62,4 @@ LOCK TABLES为当前线程锁定表。 UNLOCK TABLES释放被当前线程持有�
 #### refrence
  
 - http://www.ywnds.com/?p=4442
+- https://blog.csdn.net/lipc_/article/details/52854382

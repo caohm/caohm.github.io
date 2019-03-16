@@ -50,4 +50,34 @@ curl -XDELETE 'http://localhost:9200/mdc/originData/data1'
 curl -XGET 'http://localhost:9200/mdc/originData/data1'
 
 
-    
+### 聚合
+
+
+``` json
+{
+  "query": {
+    "bool": {
+      "must": {
+        "range": {
+          "time": {
+            "from": 1506787200000,
+            "to": 1508746873436
+          }
+        }
+      }
+    }
+  },
+  "aggregations": {
+    "exception": {
+      "terms": {
+        "field": "exception"
+      }
+    },
+    "checkSubmitCode": {
+      "terms": {
+        "field": "checkSubmitCode"
+      }
+    }
+  }
+}
+```
