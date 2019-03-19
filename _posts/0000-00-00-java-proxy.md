@@ -1,9 +1,9 @@
 ---
-title: code-proxy
+title: proxy
 layout: post
 date: 2017-11-14 17:57:30 +0800
-categories: code
-tags: proxy code
+categories: 代理
+tags: 代理
 ---
 
 
