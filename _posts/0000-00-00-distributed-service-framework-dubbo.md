@@ -1,9 +1,9 @@
 ---
-title: xsf
+title: 分布式服务框架-dubbo
 layout: post
 date:  2017-04-27 15:11:49 +0800 
-categories: 服务治理
-tags: xsf dubbo
+categories: 分布式服务框架
+tags: dubbo
 ---
 
 
@@ -27,6 +27,14 @@ spring-cloud，其他的如twitter的finagle，facebook的thrift。
 ### using
 
 ### refrence
+>* [阿里P8架构师谈：Dubbo的详细介绍、设计思路、以及4大适用场景](https://baijiahao.baidu.com/s?id=1612574809664801766&wfr=spider&for=pc)
+>* [dubbo面试题、基本原理、核心配置](http://baijiahao.baidu.com/s?id=1601781224676099887&wfr=spider&for=pc)
+
+
+
+
+
+
 
 http://snv.iteye.com/blog/1935781
 http://chuansong.me/n/466477251551
