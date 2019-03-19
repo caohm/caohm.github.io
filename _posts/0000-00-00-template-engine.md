@@ -1,8 +1,8 @@
 ---
-title: velocity-freemarker-compare
+title: 模板引擎
 layout: post
 date: 2017-04-12 11:47:54 +0800
-categories: 技术比较
+categories: 模板引擎
 tags: Velocity FreeMarker
 ---
 

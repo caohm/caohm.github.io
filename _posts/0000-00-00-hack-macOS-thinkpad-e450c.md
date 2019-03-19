@@ -1,9 +1,9 @@
 ---
-title: thinkpad-e450c-hack-mac-os
+title: MacOS on Thinkpad E450c
 layout: post
 date: 2017-02-25 17:27:10 +0800 
 categories: hack
-tags: Mac 黑苹果
+tags: 黑苹果
 ---
 
 

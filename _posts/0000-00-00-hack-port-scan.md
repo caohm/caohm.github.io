@@ -2,8 +2,8 @@
 title: SYN
 layout: post
 date: 2017-05-03 17:35:07 +0800
-categories: [port]
-tags: [SYN]
+categories: hack
+tags: SYN
 ---
 
 

@@ -65,7 +65,7 @@ git checkout master
 ```
 3. 提交该分支到远程仓库
 
-``` shell
+```
 git push origin dev
 ```
 

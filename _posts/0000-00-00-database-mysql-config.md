@@ -2,8 +2,8 @@
 title: mysql config
 layout: post
 date: 2017-03-23 22:35:24 +0800
-categories: MySQL
-tags: MySQL
+categories: mysql
+tags: mysql
 ---
 
 

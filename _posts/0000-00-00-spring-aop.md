@@ -3,7 +3,7 @@ title: Spring aop
 layout: post
 date: 2018-06-06 17:30:18 +0800
 categories: spring
-tags: bean
+tags: aop
 ---
 * content
 {:toc}
