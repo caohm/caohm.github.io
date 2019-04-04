@@ -2,8 +2,8 @@
 layout: post
 title:  大型网站技术架构-入门梳理
 date:   2017-01-18 21:44:07 +08:00
-category: 分布式
-tags:  总结
+category: 架构设计
+tags:  架构设计
 comments: true
 ---
 

@@ -28,7 +28,7 @@ weibo_username:
 linkedin_username:
 
 description_footer: 千水金年
-
+related_posts: lsi
 # comments
 # two ways to comment, only choose one, and use your own short name
 duoshuo_shortname: caohm
@@ -47,7 +47,7 @@ kramdown:
   syntax_highlighter: rouge
 
 # port
-port: 880
+#port: 880
 
 # url
 category_dir: category/

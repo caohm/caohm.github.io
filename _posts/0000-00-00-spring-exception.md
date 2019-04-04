@@ -2,7 +2,7 @@
 title: spring-exception
 layout: post
 date: 2017-12-01 17:57:16 +0800
-categories: [spring]
+categories: spring
 tags: exception
 ---
 

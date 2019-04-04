@@ -2,7 +2,7 @@
 title: openwrt raspberry cluster
 layout: post
 date: 2017-02-18 15:21:32 +0800 
-categories: RaspberryPi
+categories: RaspberryPi OpenWrt
 tags: RaspberryPi OpenWrt 集群
 ---
 

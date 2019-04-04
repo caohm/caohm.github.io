@@ -2,7 +2,7 @@
 title: Spring quartz
 layout: post
 date: 2017-04-28 17:49:30 +0800
-categories: Spring
+categories: spring
 tags: quartz
 ---
 * content

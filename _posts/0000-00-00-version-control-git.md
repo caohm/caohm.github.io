@@ -65,7 +65,7 @@ git checkout master
 ```
 3. 提交该分支到远程仓库
 
-``` shell
+```
 git push origin dev
 ```
 
@@ -89,6 +89,18 @@ upstream        https://github.com/apache/incubator-dubbo.git (fetch)
 upstream        https://github.com/apache/incubator-dubbo.git (push)
 $ git checkout master
 $ git pull upstream master
+
+```
+
+6. git比较两个分支的文件的差异
+
+
+```bash
+git diff branch1 branch2 --stat  //显示出所有有差异的文件列表
+
+git diff branch1 branch2 文件     //显示指定文件的详细差异
+
+git diff branch1 branch2         //显示出所有有差异的文件的详细差异
 
 ```
 

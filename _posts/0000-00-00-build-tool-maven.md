@@ -2,7 +2,7 @@
 title: maven
 layout: post
 date:  2017-04-27 15:11:49 +0800 
-categories: 项目管理
+categories: 项目构建
 tags: maven
 ---
 
