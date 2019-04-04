@@ -102,8 +102,8 @@ comments: true
 
 ----
 ## 参考链接
->* [标记语言Markdown介绍以及日常使用](https://blog.csdn.net/xun527/article/details/78821095)
 
+>* [标记语言Markdown介绍以及日常使用](https://blog.csdn.net/xun527/article/details/78821095)
 >* [CSDN-markdown语法之如何插入图片](https://blog.csdn.net/lanxuezaipiao/article/details/44310775)
 
 ----

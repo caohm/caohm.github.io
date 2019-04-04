@@ -175,9 +175,10 @@ Top 3统计概念：
 
 ## 参考
 
-> * [简单易懂的机器学习入门](https://blog.csdn.net/qq_28168421/article/details/81351321)
-> * [十大经典机器学习算法入门](https://blog.csdn.net/jrunw/article/details/79205322)
-> * [机器学习系列（一）——机器学习简介](https://blog.csdn.net/hohaizx/article/details/80584307)
+>* [简单易懂的机器学习入门](https://blog.csdn.net/qq_28168421/article/details/81351321)
+>* [十大经典机器学习算法入门](https://blog.csdn.net/jrunw/article/details/79205322)
+>* [机器学习系列（一）——机器学习简介](https://blog.csdn.net/hohaizx/article/details/80584307)
+
 ----
 
 

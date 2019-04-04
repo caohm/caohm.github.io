@@ -9,3 +9,4 @@ Gemfile.lock
 #_data/jd/*
 _drafts/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-jd-*
 
+.gitignore

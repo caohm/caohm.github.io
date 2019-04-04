@@ -1,14 +1,14 @@
 ---
 layout: post
-title:  linux centos
+title: CentOS
 date: 2017-04-23 20:11:59 +0800
 categories: linux
-tags: linux centos
+tags: CentOS 
 ---
 
 * content
 {:toc}
-本文介绍 centos系统如何使用及常用命令
+本文介绍 CentOS系统如何使用及常用命令
 
 
 

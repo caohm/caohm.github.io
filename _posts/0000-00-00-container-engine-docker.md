@@ -8,8 +8,16 @@ tags: docker k8s
 
 * content
 {:toc}
-本文 记录Docker
+# 简介
 
+2017年的3月1号之后，Docker的版本命名开始发生变化，同时将CE版本和EE版本进行分开。
+
+区别如下：
+
+[Docker社区版（CE）](https://www.docker.com/community-edition)：为了开发人员或小团队创建基于容器的应用,与团队成员分享和自动化的开发管道。
+docker-ce提供了简单的安装和快速的安装，以便可以立即开始开发。docker-ce集成和优化，基础设施。（免费）
+
+Docker企业版（EE）：专为企业的发展和IT团队建立谁。docker-ee为企业提供最安全的容器平台，以应用为中心的平台。（付费）
 
 
 
@@ -43,6 +51,11 @@ docker images
 docker rm trade-erp
 
 docker rmi d296cdd735ce
+
+docker rmi : 删除本地一个或多少镜像。
+docker rmi image_id image_id2 image_id3
+docker rmi -f image_id #删除相同ID的镜像
+docker rmi repository:tag
 
 docker cp e:\jdk d296cdd735ce:/jdk
 
