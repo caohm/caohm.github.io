@@ -56,8 +56,8 @@ tag_dir: tag/
 # excerpt
 excerpt_separator: "\n\n\n\n"
 
-gems:
-  #- jekyll-mentions
+plugins:
+  - jekyll-mentions
   - jekyll-sitemap
   - jekyll-feed
   - jekyll-seo-tag
