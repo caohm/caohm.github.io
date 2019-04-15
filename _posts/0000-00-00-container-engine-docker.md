@@ -347,3 +347,140 @@ bin/kafka-console-producer.sh --broker-list localhost:9092 --topic mykafka
 [html] view plain copy print?
 bin/kafka-console-consumer.sh --zookeeper zookeeper:2181 --topic mykafka --from-beginning  
 这时在生产者输入测试消息，在消费者就可以接收消息了
+
+
+
+
+
+
+
+## MySql 
+
+### start a mysql instance
+```bash
+docker run --rm --name mysql-server --network host -p 3306 -e MYSQL_ROOT_PASSWORD=123456 -it mysql:5 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+```
+
+### connecting via mysql-client
+```bash
+docker run --rm --name mysql-client --network bridge                                     -it mysql:5 mysql -hcaohm-ThinkPad-E450 -P3306 -uroot -p123456
+```
+
+## Redis
+
+### start a redis instance
+```bash
+docker run --rm --name redis-server --network host -p 6379 -it redis:5
+```
+### connecting via redis-cli
+```bash
+docker run --rm --name redis-cli    --network bridge       -it redis:5 redis-cli -h caohm-ThinkPad-E450 -p 6379
+```
+
+## RabbitMQ
+### start a RabbitMQ instance
+```bash
+docker run --rm --name rabbit-server --network host -h rabbit-server                            -it rabbitmq:3.7
+```
+### connecting via rabbitmqctl
+```bash
+docker run --rm --name rabbit-cli    --network bridge -e RABBITMQ_NODENAME=rabbit@rabbit-server -it rabbitmq:3.7 bash
+/# rabbitmqctl list_users
+```
+
+
+#
+
+### docker info
+```bash
+caohm@caohm-ThinkPad-E450:~$ docker info
+Containers: 1
+ Running: 1
+ Paused: 0
+ Stopped: 0
+Images: 84
+Server Version: 18.09.4
+Storage Driver: overlay2
+ Backing Filesystem: extfs
+ Supports d_type: true
+ Native Overlay Diff: true
+Logging Driver: json-file
+Cgroup Driver: cgroupfs
+Plugins:
+ Volume: local
+ Network: bridge host macvlan null overlay
+ Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
+Swarm: inactive
+Runtimes: runc
+Default Runtime: runc
+Init Binary: docker-init
+containerd version: bb71b10fd8f58240ca47fbb579b9d1028eea7c84
+runc version: 2b18fe1d885ee5083ef9f0838fee39b62d653e30
+init version: fec3683
+Security Options:
+ apparmor
+ seccomp
+  Profile: default
+Kernel Version: 4.18.0-17-generic
+Operating System: Ubuntu 18.04.2 LTS
+OSType: linux
+Architecture: x86_64
+CPUs: 4
+Total Memory: 7.538GiB
+Name: caohm-ThinkPad-E450
+ID: DW3C:4HTD:7ZLR:BHYG:SOMV:CMN2:O4FC:YSKC:GZRS:OVVN:LJX2:IDZT
+Docker Root Dir: /var/lib/docker
+Debug Mode (client): false
+Debug Mode (server): false
+Registry: https://index.docker.io/v1/
+Labels:
+Experimental: false
+Insecure Registries:
+ 172.20.29.2:5000
+ registry.cn-shenzhen.aliyuncs.com
+ 127.0.0.0/8
+Registry Mirrors:
+ http://172.20.29.2:5000/
+Live Restore Enabled: false
+Product License: Community Engine
+
+WARNING: No swap limit support
+```
+
+### list all images
+```bash
+caohm@caohm-ThinkPad-E450:~$ docker image ls
+```
+
+### list all containers
+```bash
+caohm@caohm-ThinkPad-E450:~$ docker container ls --all
+```
+
+### remove all containers
+```bash
+caohm@caohm-ThinkPad-E450:~$ docker container ls -aq |xargs docker container rm 
+# or
+caohm@caohm-ThinkPad-E450:~$ docker container rm $(docker container ls -a -q)
+```
+
+### commonds
+```bash
+docker build -t friendlyhello .  # Create image using this directory's Dockerfile
+docker run -p 4000:80 friendlyhello  # Run "friendlyhello" mapping port 4000 to 80
+docker run -d -p 4000:80 friendlyhello         # Same thing, but in detached mode
+docker container ls                                # List all running containers
+docker container ls -a             # List all containers, even those not running
+docker container stop <hash>           # Gracefully stop the specified container
+docker container kill <hash>         # Force shutdown of the specified container
+docker container rm <hash>        # Remove specified container from this machine
+docker container rm $(docker container ls -a -q)         # Remove all containers
+docker image ls -a                             # List all images on this machine
+docker image rm <image id>            # Remove specified image from this machine
+docker image rm $(docker image ls -a -q)   # Remove all images from this machine
+docker login             # Log in this CLI session using your Docker credentials
+docker tag <image> username/repository:tag  # Tag <image> for upload to registry
+docker push username/repository:tag            # Upload tagged image to registry
+docker run username/repository:tag                   # Run image from a registry
+```
+

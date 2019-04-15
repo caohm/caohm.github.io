@@ -145,9 +145,8 @@ $ helm reset
 ## 创建一个名为 mychart 的 Chart
 $ helm create mychart
 该命令创建了一个 mychart 目录，该目录结构如下所示。这里我们主要关注目录中的 Chart.yaml、values.yaml、NOTES.txt 和 Templates 目录。
+
 ```
-$ tree mychart/
-mychart/
 ├── charts
 ├── Chart.yaml
 ├── templates
@@ -157,8 +156,6 @@ mychart/
 │   ├── NOTES.txt
 │   └── service.yaml
 └── values.yaml
-
-2 directories, 7 files
 ```
 Chart.yaml 用于描述这个 Chart的相关信息，包括名字、描述信息以及版本等。
 values.yaml 用于存储 templates 目录中模板文件中用到变量的值。
@@ -166,8 +163,6 @@ NOTES.txt 用于介绍 Chart 部署后的一些信息，例如：如何使用这
 Templates 目录下是 YAML 文件的模板，该模板文件遵循 Go template 语法。
 Templates 目录下 YAML 文件模板的值默认都是在 values.yaml 里定义的，比如在 deployment.yaml 中定义的容器镜像。
 
-image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-其中的 .Values.image.repository 的值就是在 values.yaml 里定义的 nginx，.Values.image.tag 的值就是 stable。
 ```
 $ cat mychart/values.yaml|grep repository
 repository: nginx
